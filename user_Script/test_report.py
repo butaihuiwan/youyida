@@ -16,6 +16,11 @@ from selenium.webdriver.common.by import By
 class Test_report(Commonshare):
     """预报舱单申报模块"""
 
+    def rm_imput(self, locate_type, value):
+        el = self.locateElement(locate_type, value)
+        el.send_keys(Keys.CONTROL + 'a')
+        el.send_keys(Keys.BACKSPACE)
+
     def login(self, user, pwd):
         """普通账号登陆"""
         # 设置浏览器的最大化
@@ -28,7 +33,7 @@ class Test_report(Commonshare):
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
         # 判断
-        # Test_report.el_show(self, 'text', '工作台','登陆')
+        Test_report.el_show(self, 'text', '工作台', '登陆')
         time.sleep(1)
 
     # 修改密码
@@ -98,7 +103,8 @@ class Test_report(Commonshare):
         self.driver.find_element_by_id('OUT_VOYAGE_NO').clear()
         self.driver.find_element_by_id('OUT_VOYAGE_NO').send_keys(HC)
 
-        self.driver.find_element_by_id('TRUST_INFO').clear()
+        # self.driver.find_element_by_id('TRUST_INFO').clear()
+        self.rm_imput('id', 'TRUST_INFO')
         self.driver.find_element_by_id('TRUST_INFO').send_keys('YML：阳明')
         element_03 = self.driver.find_element_by_id('TYPE_OF_BILL')
         select_03 = Select(element_03)
@@ -128,11 +134,14 @@ class Test_report(Commonshare):
 
         self.driver.find_element_by_id('E_SHIPPER_NAM').send_keys('CHANGZHOU JIANKAI WOOD CO.,LTD')
         time.sleep(1)
-        self.driver.find_element_by_id('SHIPPER_COUNTRY_COD').clear()
-        print('清空成功')
+        # el = self.driver.find_element_by_id('SHIPPER_COUNTRY_COD')
+        # el.send_keys(Keys.CONTROL+'a')
+        # el.send_keys(Keys.BACKSPACE)
+        self.rm_imput('id', 'SHIPPER_COUNTRY_COD')
+
         self.driver.find_element_by_id('SHIPPER_COUNTRY_COD').send_keys('CN')
         self.driver.find_element_by_id('SHIPPER_ADD_STR').clear()
-        print('清空成功')
+
         self.driver.find_element_by_id('SHIPPER_ADD_STR').send_keys(
             'NO.89,WEIFU ROAD,CUIQIAO,HENGLIN TOWN,WUJIN DISTRICT,CHANGZHOU CITY,JI')
         self.driver.find_element_by_id('SHIPPER_TE_STR').clear()
@@ -144,9 +153,6 @@ class Test_report(Commonshare):
         self.driver.find_element_by_id('SHIPPER_FX_STR').clear()
 
         self.driver.find_element_by_id('SHIPPER_FX_STR').send_keys('123456')
-        # self.driver.find_element_by_name('CONSIGNEE_AEO').clear()
-        #
-        # self.driver.find_element_by_name('CONSIGNEE_AEO').send_keys('SH')
 
         # 收货人信息
         self.driver.find_element_by_id('CONSIGNEE_COD').clear()
@@ -155,11 +161,11 @@ class Test_report(Commonshare):
         self.driver.find_element_by_id('E_CONSIGNEE_NAM').clear()
 
         self.driver.find_element_by_id('E_CONSIGNEE_NAM').send_keys('TOUCH EXPERTS GENERAL TRADING CO.,LTD')
-        self.driver.find_element_by_id('CONSIGNEE_COUNTRY_COD').clear()
 
-        # self.driver.find_element_by_id('CONSIGNEE_COUNTRY_COD').send_keys('IQ')
-        # self.driver.find_element_by_name('CONSIGNEE_ADD_STR').clear()
+        self.rm_imput('id', 'CONSIGNEE_COUNTRY_COD')
+        self.driver.find_element_by_id('CONSIGNEE_COUNTRY_COD').send_keys('IQ')
 
+        self.rm_imput('name', 'CONSIGNEE_ADD_STR')
         self.driver.find_element_by_name('CONSIGNEE_ADD_STR').send_keys('IRAQ BAGHDAD VICTORY SQUAE')
         self.driver.find_element_by_id('CONSIGNEE_TE_STR').clear()
 
@@ -172,9 +178,6 @@ class Test_report(Commonshare):
         self.driver.find_element_by_id('SHIPPER_FX_STR').send_keys('123456789')
         self.driver.find_element_by_id('CONSIGNEE_CONTACT_NAM').clear()
 
-        # self.driver.find_element_by_id('CONSIGNEE_CONTACT_NAM').send_keys('BJ')
-        # self.driver.find_element_by_id('CONSIGNEE_CONTACT_TE_STR').clear()
-
         self.driver.find_element_by_id('CONSIGNEE_CONTACT_TE_STR').send_keys('12345678')
         self.driver.find_element_by_id('CONSIGNEE_CONTACT_EM_STR').clear()
 
@@ -182,7 +185,8 @@ class Test_report(Commonshare):
         self.driver.find_element_by_id('CONSIGNEE_CONTACT_FX_STR').clear()
 
         self.driver.find_element_by_id('CONSIGNEE_CONTACT_FX_STR').send_keys('12345678')
-        # self.driver.find_element_by_name('CONSIGNEE_AEO').send_keys('BJ')
+        self.rm_imput('name', 'CONSIGNEE_AEO')
+        self.driver.find_element_by_name('CONSIGNEE_AEO').send_keys('BJ')
 
         # 通知人信息
         self.driver.find_element_by_id('NOTIFY_COD').clear()
@@ -191,11 +195,9 @@ class Test_report(Commonshare):
         self.driver.find_element_by_id('E_NOTIFY_NAM').clear()
 
         self.driver.find_element_by_id('E_NOTIFY_NAM').send_keys('TOUCH EXPERTS GENERAL TRADING CO.,LTD')
-        self.driver.find_element_by_id('NOTIFY_COUNTRY_COD').clear()
-
-        # self.driver.find_element_by_id('NOTIFY_COUNTRY_COD').send_keys('IQ')
-        # self.driver.find_element_by_name('NOTIFY_ADD_STR').clear()
-
+        self.rm_imput('id', 'NOTIFY_COUNTRY_COD')
+        self.driver.find_element_by_id('NOTIFY_COUNTRY_COD').send_keys('IQ')
+        self.rm_imput('name', 'NOTIFY_ADD_STR')
         self.driver.find_element_by_name('NOTIFY_ADD_STR').send_keys('IRAQ BAGHDAD VICTORY SQUAE')
         self.driver.find_element_by_id('NOTIFY_TE_STR').clear()
 
@@ -208,87 +210,31 @@ class Test_report(Commonshare):
         self.driver.find_element_by_id('NOTIFY_FX_STR').send_keys('1132123')
 
         # 地点信息
-        # self.driver.find_element_by_name('START_PORT_NAM').clear()
-        # self.driver.find_element_by_name('START_PORT_NAM').send_keys('ADA')
-        # Test_report.el_show(self, 'xpath',
-        #                     '//*[@id="formDtl"]/div[6]/table/tbody/tr[1]/td[2]/div[1]/span/div/div/div[1]', '地点信息')
-        # self.driver.find_element_by_xpath(
-        #     '//*[@id="formDtl"]/div[6]/table/tbody/tr[1]/td[2]/div[1]/span/div/div/div[1]').click()
-        # self.driver.find_element_by_name('LOAD_PORT_FULLNAM').clear()
-        # self.driver.find_element_by_name('LOAD_PORT_FULLNAM').send_keys('as')
-        # self.driver.find_element_by_xpath(
-        #     '//*[@id="formDtl"]/div[6]/table/tbody/tr[1]/td[4]/div[1]/span/div/div/div[2]').click()
-        # self.driver.find_element_by_name('DISCHRG_PORT_FULLNAM').clear()
-        # self.driver.find_element_by_name('DISCHRG_PORT_FULLNAM').send_keys('BS')
-        # self.driver.find_element_by_xpath(
-        #     '//*[@id="formDtl"]/div[6]/table/tbody/tr[2]/td[2]/div[1]/span/div/div/div[3]').click()
-        # self.driver.find_element_by_name('TRANS_PORT_FULLNAM').clear()
-        # self.driver.find_element_by_name('TRANS_PORT_FULLNAM').send_keys('CC')
-        # self.driver.find_element_by_xpath(
-        #     '//*[@id="formDtl"]/div[6]/table/tbody/tr[2]/td[4]/div[1]/span/div/div/div').click()
-        # self.driver.find_element_by_name('DEST_PORT_FULLNAM').clear()
-        #
-        # self.driver.find_element_by_name('DEST_PORT_FULLNAM').send_keys('ss')
-        # self.driver.find_element_by_xpath(
-        #     '//*[@id="formDtl"]/div[6]/table/tbody/tr[3]/td[2]/div[1]/span/div/div/div').click()
+        self.rm_imput('name', 'START_PORT_NAM')
+        self.driver.find_element_by_name('START_PORT_NAM').send_keys('ADA')
+        self.driver.find_element_by_xpath(
+            '//*[@id="formDtl"]/div[6]/table/tbody/tr[1]/td[2]/div[1]/span/div/div/div[1]').click()
+
+        self.rm_imput('name', 'LOAD_PORT_FULLNAM')
+        self.driver.find_element_by_name('LOAD_PORT_FULLNAM').send_keys('as')
+        self.driver.find_element_by_xpath(
+            '//*[@id="formDtl"]/div[6]/table/tbody/tr[1]/td[4]/div[1]/span/div/div/div[2]').click()
+
+        self.rm_imput('name', 'DISCHRG_PORT_FULLNAM')
+        self.driver.find_element_by_name('DISCHRG_PORT_FULLNAM').send_keys('BS')
+        self.driver.find_element_by_xpath(
+            '//*[@id="formDtl"]/div[6]/table/tbody/tr[2]/td[2]/div[1]/span/div/div/div[3]').click()
+
+        self.rm_imput('name', 'TRANS_PORT_FULLNAM')
+        self.driver.find_element_by_name('TRANS_PORT_FULLNAM').send_keys('CC')
+        self.driver.find_element_by_xpath(
+            '//*[@id="formDtl"]/div[6]/table/tbody/tr[2]/td[4]/div[1]/span/div/div/div').click()
+
+        self.rm_imput('name', 'DEST_PORT_FULLNAM')
+        self.driver.find_element_by_name('DEST_PORT_FULLNAM').send_keys('ss')
+        self.driver.find_element_by_xpath(
+            '//*[@id="formDtl"]/div[6]/table/tbody/tr[3]/td[2]/div[1]/span/div/div/div').click()
         driver = self.driver
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.col-md-7.input-edit > span > input').clear()
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.col-md-7.input-edit > span > input').send_keys(
-            'ALA')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.col-md-4.input-edit > span > input').clear()
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.col-md-4.input-edit > span > input').send_keys(
-            'ITALA')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(4) > div.col-md-7.input-edit > span > input').clear()
-
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(4) > div.col-md-7.input-edit > span > input').send_keys(
-            'AS')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(4) > div.col-md-4.input-edit > span > input').clear()
-
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(1) > td:nth-child(4) > div.col-md-4.input-edit > span > input').send_keys(
-            'CZASA')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.col-md-7.input-edit > span > input').clear()
-
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.col-md-7.input-edit > span > input').send_keys(
-            'AS')
-        driver.find_element_by_css_selector(
-            '//*[@id="formDtl"]/div[6]/table/tbody/tr[2]/td[2]/div[3]/span/input').clear()
-
-        driver.find_element_by_css_selector(
-            '//*[@id="formDtl"]/div[6]/table/tbody/tr[2]/td[2]/div[3]/span/input').send_keys('NOAAS')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(2) > td:nth-child(4) > div.col-md-7.input-edit > span > input').clear()
-
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(2) > td:nth-child(4) > div.col-md-7.input-edit > span > input').send_keys(
-            'BBBB')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(2) > td:nth-child(4) > div.col-md-4.input-edit > span > input').clear()
-
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(2) > td:nth-child(4) > div.col-md-4.input-edit > span > input').send_keys(
-            'MRNDB')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(3) > td.col-md-12 > div.col-md-7.input-edit > span > input').clear()
-
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(3) > td.col-md-12 > div.col-md-7.input-edit > span > input').send_keys(
-            'COCOS ISLANDS')
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(3) > td.col-md-12 > div.col-md-4.input-edit > span > input').clear()
-
-        driver.find_element_by_css_selector(
-            '#formDtl > div.tabKeyDown > table > tbody > tr:nth-child(3) > td.col-md-12 > div.col-md-4.input-edit > span > input').send_keys(
-            'CCCCK')
 
         time.sleep(1)
         target = driver.find_element_by_xpath(
@@ -296,51 +242,90 @@ class Test_report(Commonshare):
         driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标拖动到可见的元素去
 
         # 货物信息新增
+        if self.el_show('xpath', '/*[@id="2818CargoTr"]/td[7]/a[2]', '货物信息新增删除点击'):
+            driver.find_element_by_xpath('//*[@id="2818CargoTr"]/td[7]/a[2]').click()
+            driver.find_element_by_xpath('/html/body/div[8]/div/div/div[2]/button[2]').click()
+            driver.find_element_by_link_text('确认').click()
+            driver.find_element_by_css_selector(
+                '#text-body > div.body-div.portlet.light.bordered > div:nth-child(2) > a').click()
+            driver.find_element_by_css_selector("div.col-md-8 > #PIECE_NUM").clear()
 
-        driver.find_element_by_css_selector(
-            '#text-body > div.body-div.portlet.light.bordered > div:nth-child(2) > a').click()
-        driver.find_element_by_css_selector("div.col-md-8 > #PIECE_NUM").clear()
+            driver.find_element_by_css_selector("div.col-md-8 > #PIECE_NUM").send_keys("220")
+            driver.find_element_by_css_selector("div.col-md-8 > #GWEIGHT_TON").clear()
 
-        driver.find_element_by_css_selector("div.col-md-8 > #PIECE_NUM").send_keys("220")
-        driver.find_element_by_css_selector("div.col-md-8 > #GWEIGHT_TON").clear()
+            driver.find_element_by_css_selector("div.col-md-8 > #GWEIGHT_TON").send_keys("220")
+            time.sleep(2)
+            driver.find_element_by_css_selector(
+                "#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(6) > div > div > input").clear()
+            driver.find_element_by_css_selector(
+                "#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(6) > div > div > input").send_keys(
+                "220")
+            element = driver.find_element_by_xpath(
+                "//form[@id='inputCargoDtl']/div/div/div/div/div[3]/div/div/span/input[2]")
+            element.send_keys(Keys.CONTROL, 'a')
+            element.send_keys('Rod/RD')
+            driver.find_element_by_css_selector("div.col-md-8 > #GVOL_NUM").clear()
 
-        driver.find_element_by_css_selector("div.col-md-8 > #GWEIGHT_TON").send_keys("220")
-        time.sleep(2)
-        driver.find_element_by_css_selector(
-            "#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(6) > div > div > input").clear()
-        driver.find_element_by_css_selector(
-            "#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(6) > div > div > input").send_keys(
-            "220")
-        element = driver.find_element_by_xpath(
-            "//form[@id='inputCargoDtl']/div/div/div/div/div[3]/div/div/span/input[2]")
-        element.send_keys(Keys.CONTROL, 'a')
-        element.send_keys('Rod/RD')
-        driver.find_element_by_css_selector("div.col-md-8 > #GVOL_NUM").clear()
+            driver.find_element_by_css_selector("div.col-md-8 > #GVOL_NUM").send_keys("220")
+            driver.find_element_by_css_selector(
+                '#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(8) > div > div > textarea').clear()
+            driver.find_element_by_css_selector(
+                '#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(8) > div > div > textarea').send_keys(
+                'WU')
+            time.sleep(2)
+            driver.find_element_by_id("buttonInputCargoDtl").click()
 
-        driver.find_element_by_css_selector("div.col-md-8 > #GVOL_NUM").send_keys("220")
-        driver.find_element_by_css_selector(
-            '#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(8) > div > div > textarea').clear()
-        driver.find_element_by_css_selector(
-            '#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(8) > div > div > textarea').send_keys(
-            'WU')
-        time.sleep(2)
-        driver.find_element_by_id("buttonInputCargoDtl").click()
+            el = (By.XPATH, '/html/body/div[8]/div/div/div[2]/button')
+            # 判断元素是否加载出来
+            try:
+                WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
+                print('货物信息新增成功点击加载出来了')
+            except:
+                print('货物信息新增成功点击加载失败')
 
-        el = (By.XPATH, '/html/body/div[8]/div/div/div[2]/button')
-        # 判断元素是否加载出来
-        try:
-            WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
-            print('货物信息新增成功点击加载出来了')
-        except:
-            print('货物信息新增成功点击加载失败')
+            driver.find_element_by_xpath("/html/body/div[8]/div/div/div[2]/button").click()
+        else:
+            driver.find_element_by_css_selector(
+                '#text-body > div.body-div.portlet.light.bordered > div:nth-child(2) > a').click()
+            driver.find_element_by_css_selector("div.col-md-8 > #PIECE_NUM").clear()
 
-        driver.find_element_by_xpath("/html/body/div[8]/div/div/div[2]/button").click()
+            driver.find_element_by_css_selector("div.col-md-8 > #PIECE_NUM").send_keys("220")
+            driver.find_element_by_css_selector("div.col-md-8 > #GWEIGHT_TON").clear()
+
+            driver.find_element_by_css_selector("div.col-md-8 > #GWEIGHT_TON").send_keys("220")
+            time.sleep(2)
+            driver.find_element_by_css_selector(
+                "#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(6) > div > div > input").clear()
+            driver.find_element_by_css_selector(
+                "#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(6) > div > div > input").send_keys(
+                "220")
+            element = driver.find_element_by_xpath(
+                "//form[@id='inputCargoDtl']/div/div/div/div/div[3]/div/div/span/input[2]")
+            element.send_keys(Keys.CONTROL, 'a')
+            element.send_keys('Rod/RD')
+            driver.find_element_by_css_selector("div.col-md-8 > #GVOL_NUM").clear()
+
+            driver.find_element_by_css_selector("div.col-md-8 > #GVOL_NUM").send_keys("220")
+            driver.find_element_by_css_selector(
+                '#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(8) > div > div > textarea').clear()
+            driver.find_element_by_css_selector(
+                '#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(8) > div > div > textarea').send_keys(
+                'WU')
+            time.sleep(2)
+            driver.find_element_by_id("buttonInputCargoDtl").click()
+
+            el = (By.XPATH, '/html/body/div[8]/div/div/div[2]/button')
+            # 判断元素是否加载出来
+            try:
+                WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
+                print('货物信息新增成功点击加载出来了')
+            except:
+                print('货物信息新增成功点击加载失败')
+
+            driver.find_element_by_xpath("/html/body/div[8]/div/div/div[2]/button").click()
 
         # 新增箱号集装箱细目
-        el = (By.XPATH, '//*[@id="text-body"]/div[2]/div[2]/a')
-        target = driver.find_element_by_xpath(
-            '//*[@id="text-body"]/div[2]/div[2]/a')
-        driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标下拉框向下移动
+        el = (By.XPATH, '//*[@id="text-body"]/div[2]/div[5]/a')
         try:
             WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
             print('箱号新增点击加载出来了')
@@ -348,67 +333,135 @@ class Test_report(Commonshare):
             print('箱号新增点击加载失败')
 
         time.sleep(2)
-        driver.find_element_by_xpath(
-            '//*[@id="text-body"]/div[2]/div[2]/a').click()
-        driver.find_element_by_css_selector('#inputCntrDtl > div:nth-child(1) > div > div > input').clear()
-        driver.find_element_by_css_selector('#inputCntrDtl > div:nth-child(1) > div > div > input').send_keys(
-            "TEST1234568")  # 箱号
-        element_03 = self.driver.find_element_by_xpath('//*[@id="CNTR_SIZE_COD"]')
-        select_03 = Select(element_03)
-        select_03.select_by_visible_text('20')  # 箱型
-        element_03 = self.driver.find_element_by_xpath('// *[ @ id = "CNTR_TYPE_COD"]')
-        select_03 = Select(element_03)
-        select_03.select_by_visible_text('GP')  # 箱型
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(2) > div > div > input").clear()
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(2) > div > div > input").send_keys(
-            "220")  # 铅封号
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(4) > div > div > input").clear()
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(4) > div > div > input").send_keys(
-            "220")  # 件数
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(6) > div > div > input").clear()
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(6) > div > div > input").send_keys(
-            "220")  # 货内箱体积
+        if self.el_show('xpath', '//*[@id="3127CntrTr"]/td[8]/a[2]', '箱子新增删除点击'):
+            driver.find_element_by_xpath('//*[@id="3127CntrTr"]/td[8]/a[2]').click()
+            driver.find_element_by_xpath('/html/body/div[8]/div/div/div[2]/button[2]').click()
+            driver.find_element_by_link_text('确认').click()
+            driver.find_element_by_xpath(
+                '//*[@id="text-body"]/div[2]/div[5]/a').click()
+            driver.find_element_by_css_selector('#inputCntrDtl > div:nth-child(1) > div > div > input').clear()
+            driver.find_element_by_css_selector('#inputCntrDtl > div:nth-child(1) > div > div > input').send_keys(
+                "TEST1234568")  # 箱号
+            element_03 = self.driver.find_element_by_xpath('//*[@id="CNTR_SIZE_COD"]')
+            select_03 = Select(element_03)
+            select_03.select_by_visible_text('20')  # 箱型
+            element_03 = self.driver.find_element_by_xpath('// *[ @ id = "CNTR_TYPE_COD"]')
+            select_03 = Select(element_03)
+            select_03.select_by_visible_text('GP')  # 箱型
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(2) > div > div > input").clear()
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(2) > div > div > input").send_keys(
+                "220")  # 铅封号
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(4) > div > div > input").clear()
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(4) > div > div > input").send_keys(
+                "220")  # 件数
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(6) > div > div > input").clear()
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(6) > div > div > input").send_keys(
+                "220")  # 货内箱体积
 
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(5) > div > div > input").clear()
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(5) > div > div > input").send_keys(
-            "220")  # 货内货重
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(5) > div > div > input").clear()
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(5) > div > div > input").send_keys(
+                "220")  # 货内货重
 
-        Select(driver.find_element_by_xpath("//div[7]/div/div/select")).select_by_visible_text(u"整箱")
-        Select(driver.find_element_by_id("SOC_ID")).select_by_visible_text(u"货主箱")
+            Select(driver.find_element_by_xpath("//div[7]/div/div/select")).select_by_visible_text(u"整箱")
+            Select(driver.find_element_by_id("SOC_ID")).select_by_visible_text(u"货主箱")
 
-        time.sleep(2)
-        # 点击保存新增箱号
-        driver.find_element_by_id("buttonInputCntrDtl").click()
+            time.sleep(2)
+            # 点击保存新增箱号
+            driver.find_element_by_id("buttonInputCntrDtl").click()
 
-        time.sleep(1)
-        # 点击箱号新增操作成功
-        driver.find_element_by_xpath('/html/body/div[10]/div/div/div[2]/button').click()
+            time.sleep(1)
+            # 点击箱号新增操作成功
+            driver.find_element_by_xpath('/html/body/div[10]/div/div/div[2]/button').click()
 
-        #  总件毛体
-        el = (By.XPATH, '//*[@id="PIECE_NUM"]')
-        try:
-            WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
-            print('总件毛体点击加载出来了')
-        except Exception as e:
-            print('总件毛体点击加载失败', e)
-        driver.find_element_by_xpath(
-            "//*[@id='PIECE_NUM']").clear()
-        driver.find_element_by_xpath(
-            "//*[@id='PIECE_NUM']").send_keys('220')
-        driver.find_element_by_xpath(
-            '//*[@id="GWEIGHT_TON"]').clear()
-        driver.find_element_by_xpath(
-            '//*[@id="GWEIGHT_TON"]').send_keys(
-            '220')
-        driver.find_element_by_xpath(
-            '//*[@id="GVOL_NUM"]').clear()
-        driver.find_element_by_xpath(
-            '//*[@id="GVOL_NUM"]').send_keys(
-            '220')
-        time.sleep(3)
-        target = driver.find_element_by_xpath(
-            '//*[@id="sendButton"]')
-        driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标下拉框向上移动
+            #  总件毛体
+            el = (By.XPATH, '//*[@id="PIECE_NUM"]')
+            try:
+                WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
+                print('总件毛体点击加载出来了')
+            except Exception as e:
+                print('总件毛体点击加载失败', e)
+            self.rm_imput('xpath', '//*[@id="PIECE_NUM"]')
+            driver.find_element_by_xpath(
+                "//*[@id='PIECE_NUM']").send_keys('220')
+
+            self.rm_imput('xpath', '//*[@id="GWEIGHT_TON"]')
+
+            driver.find_element_by_xpath(
+                '//*[@id="GWEIGHT_TON"]').send_keys(
+                '220')
+
+            self.rm_imput('xpath', '//*[@id="GVOL_NUM"]')
+            driver.find_element_by_xpath(
+                '//*[@id="GVOL_NUM"]').send_keys(
+                '220')
+            time.sleep(3)
+            target = driver.find_element_by_xpath(
+                '//*[@id="sendButton"]')
+            driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标下拉框向上移动
+        else:
+
+            time.sleep(2)
+            driver.find_element_by_xpath(
+                '//*[@id="text-body"]/div[2]/div[5]/a').click()
+            self.rm_imput('css', '#inputCntrDtl > div:nth-child(1) > div > div > input')
+            driver.find_element_by_css_selector('#inputCntrDtl > div:nth-child(1) > div > div > input').send_keys(
+                "TEST1234568")  # 箱号
+            element_03 = self.driver.find_element_by_xpath('//*[@id="CNTR_SIZE_COD"]')
+            select_03 = Select(element_03)
+            select_03.select_by_visible_text('20')  # 箱型
+            element_03 = self.driver.find_element_by_xpath('// *[ @ id = "CNTR_TYPE_COD"]')
+            select_03 = Select(element_03)
+            select_03.select_by_visible_text('GP')  # 箱型
+            self.rm_imput('css', '#inputCntrDtl > div:nth-child(2) > div > div > input')
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(2) > div > div > input").send_keys(
+                "220")  # 铅封号
+            self.rm_imput('css', '#inputCntrDtl > div:nth-child(4) > div > div > input')
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(4) > div > div > input").send_keys(
+                "220")  # 件数
+            self.rm_imput('css', '#inputCntrDtl > div:nth-child(6) > div > div > input')
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(6) > div > div > input").send_keys(
+                "220")  # 货内箱体积
+
+            self.rm_imput('css', '#inputCntrDtl > div:nth-child(5) > div > div > input')
+            driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(5) > div > div > input").send_keys(
+                "220")  # 货内货重
+
+            Select(driver.find_element_by_xpath("//div[7]/div/div/select")).select_by_visible_text(u"整箱")
+            Select(driver.find_element_by_id("SOC_ID")).select_by_visible_text(u"货主箱")
+
+            time.sleep(2)
+            # 点击保存新增箱号
+            driver.find_element_by_id("buttonInputCntrDtl").click()
+
+            time.sleep(1)
+            # 点击箱号新增操作成功
+            driver.find_element_by_xpath('/html/body/div[10]/div/div/div[2]/button').click()
+
+            #  总件毛体
+            el = (By.XPATH, '//*[@id="PIECE_NUM"]')
+            try:
+                WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
+                print('总件毛体点击加载出来了')
+            except Exception as e:
+                print('总件毛体点击加载失败', e)
+            self.rm_imput('xpath', '//*[@id="PIECE_NUM"]')
+            driver.find_element_by_xpath(
+                "//*[@id='PIECE_NUM']").send_keys('220')
+
+            self.rm_imput('xpath', '//*[@id="GWEIGHT_TON"]')
+
+            driver.find_element_by_xpath(
+                '//*[@id="GWEIGHT_TON"]').send_keys(
+                '220')
+
+            self.rm_imput('xpath', '//*[@id="GVOL_NUM"]')
+            driver.find_element_by_xpath(
+                '//*[@id="GVOL_NUM"]').send_keys(
+                '220')
+            time.sleep(3)
+            target = driver.find_element_by_xpath(
+                '//*[@id="sendButton"]')
+            driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标下拉框向上移动
 
     # 新增填写的数据
     def add_data(self, TDH, CM, HC):
@@ -695,9 +748,10 @@ class Test_report(Commonshare):
         """修改 -- 待发送"""
         driver = self.driver
         driver.find_element_by_link_text(u"预配舱单申报").click()
-        driver.find_element_by_xpath(u"(//a[contains(text(),'修改')])[2]").click()
-        driver.find_element_by_id("BILL_NBR").clear()
-        driver.find_element_by_id("BILL_NBR").send_keys("EX304")
+
+        driver.find_element_by_xpath(u"(//a[contains(text(),'修改')])[1]").click()
+        num = str(random.randint(1000))
+        driver.find_element_by_id("BILL_NBR").send_keys(num)
         driver.find_element_by_link_text(u"暂存").click()
         # 判断是否提示成功
         Test_report.compare_el(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '成功', '待发送-修改-暂存')
@@ -746,11 +800,12 @@ class Test_report(Commonshare):
         driver.find_element_by_link_text(u"预配舱单申报").click()
         driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"修改").click()
-        driver.find_element_by_name("FREIGHT_NBR").clear()
-        driver.find_element_by_name("FREIGHT_NBR").send_keys("Z236027782")
+        num = str(random.randint(1, 1000))
+        print(num)
+
+        driver.find_element_by_xpath('//*[@id="formDtl"]/div[2]/table/tbody/tr[1]/td[2]').send_keys(num)
         driver.find_element_by_link_text(u"暂存").click()
         driver.find_element_by_css_selector("button.toast-close-button").click()
-        time.sleep(2)
         Test_report.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '已发送-修改：暂存')
 
         driver.find_element_by_link_text(u"更改报文发送").click()
@@ -785,19 +840,11 @@ class Test_report(Commonshare):
         driver.find_element_by_link_text(u"复制新增").click()
         time.sleep(1)
         driver.find_element_by_id("BILL_NBR").clear()
-        # 截图
-        png_num = random.randint(1, 100)
-        print('复制新增截图1的编号是：%s' % png_num)
-        url = '../image/' + str(png_num) + '.png'
-        self.driver.get_screenshot_as_file(url)
-
         driver.find_element_by_id("BILL_NBR").send_keys(TDH)
         driver.find_element_by_id("E_SHIP_NAM").clear()
         driver.find_element_by_id("E_SHIP_NAM").send_keys(CM)
         driver.find_element_by_id("OUT_VOYAGE_NO").clear()
         driver.find_element_by_id("OUT_VOYAGE_NO").send_keys(HC)
-        # driver.find_element_by_xpath('//*[@id="text-body"]/div[1]/a[5]').click()
-        # time.sleep(2)
         target = driver.find_element_by_xpath(
             '//*[@id="text-body"]/div[2]/div[1]/a')
         driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标拖动到可见的元素去
@@ -985,6 +1032,7 @@ class Test_report(Commonshare):
 
         # 查看
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[1]').click()
+        self.get_length('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]')
         time.sleep(2)
         driver.find_element_by_css_selector('#close > .fa').click()
         # 报文历史

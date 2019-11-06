@@ -88,6 +88,7 @@ class Commonshare(object):
             print('%s ok' % ex)
         else:
             print('%s error' % ex)
+            assert (1 == 2)
 
     # 判断输入的元素是否加载成功
     def el_show(self, locate_type, value, ex):
@@ -115,19 +116,19 @@ class Commonshare(object):
             print('%s:ok' % ex)
         except Exception as e:
             print('error_错误：%s' % ex)
+            return False
 
     def get_length(self, locate_type, value):
         """判断查询结果是否成功"""
         text = Commonshare.get_text(self, locate_type, value)
         print(text)
         num = len(text)
-        try:
-            assert (0 != num)
-            print('ok')
-        except Exception as e:
-            print('error_错误：%s' % e)
 
-    def get_img(self, img_name):
+        assert (0 != num)
+        print('ok')
+
+
+    def save_img(self, img_name):
         self.driver.get_screenshot_as_file(r'C:\Users\wh\PycharmProjects\untitled\suit\image\%s' % img_name)
 
     # 收尾清理方法

@@ -15,9 +15,6 @@ from .test_report import Test_report
 # 物流节点跟踪
 class Test_track(Test_report):
 
-    # def save_img(self, img_name):
-    #     self.driver.get_screenshot_as_file('{}/{}.png'.format(r'C:\Users\wh\PycharmProjects\untitled\image', img_name))
-
     # 口岸数据 : 查询 > 添加订阅 > 批量订阅 > 重置 > 舱单运抵对比
     def query_track(self):
         driver = self.driver
@@ -42,7 +39,7 @@ class Test_track(Test_report):
         os.system(r'D:\模板文件\test.exe "D:\模板文件\新舱单节点查询导入模板.xlsx"')
         Test_track.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '提示')
 
-        Test_track.compare_el(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', 'text', '*成功', '批量订阅')
+        Test_track.compare_el(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '*成功', '批量订阅')
 
     # 新舱单节点查询导入模板下载
     def down_qb(self):
