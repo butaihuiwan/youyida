@@ -31,8 +31,8 @@ class SuitTest(unittest.TestCase):
         # # 测试case目录下所有的测试用例
         # test_dir = '../case'
         # discover = unittest.defaultTestLoader.discover(test_dir, pattern='testcase_*.py')
-
-        # 创建测试运行器,设置为每一个测试用例生成测试报告，运行测试套件中的测试用例
+        #
+        # # 创建测试运行器,设置为每一个测试用例生成测试报告，运行测试套件中的测试用例
         result = BeautifulReport(mysuit)
         result = BeautifulReport(mysuit)
         result.report(description='悠易达测试报告', filename=filename, log_path=filepath)

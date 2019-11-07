@@ -4,7 +4,7 @@ import time
 from other.BeautifulReport import BeautifulReport
 from other.Commonlib import Commonshare
 
-from user_Script.test_track import Test_track
+from script.test_track import Test_track
 import unittest
 
 
@@ -20,7 +20,7 @@ class Testcase_track(unittest.TestCase):
         log.query_track()
 
     # 新舱单节点查询导入模板下载
-    @BeautifulReport.add_test_img('test_errors_save_imgs1')
+    # @BeautifulReport.add_test_img('test_errors_save_imgs1')
     def test_0002(self):
         """新舱单节点查询导入模板下载"""
         log = Test_track()

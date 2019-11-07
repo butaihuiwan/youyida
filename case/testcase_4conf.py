@@ -1,6 +1,6 @@
 import unittest
 
-from user_Script.test_conf import Test_conf
+from script.test_conf import Test_conf
 
 
 class Testcase_conf(unittest.TestCase):

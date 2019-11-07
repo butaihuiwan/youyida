@@ -12,13 +12,13 @@ from selenium.webdriver.common.action_chains import ActionChains
 from .test_report import Test_report
 
 
-# 物流节点跟踪
 class Test_track(Test_report):
+    """物流节点跟踪"""
 
-    # 口岸数据 : 查询 > 添加订阅 > 批量订阅 > 重置 > 舱单运抵对比
     def query_track(self):
+        """口岸数据 : 查询 > 添加订阅 > 批量订阅 > 重置 > 舱单运抵对比"""
         driver = self.driver
-        driver.find_element_by_link_text('物流节点跟踪').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('口岸数据').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         driver.execute_script(js)
@@ -33,24 +33,26 @@ class Test_track(Test_report):
         driver.find_element_by_link_text('取消').click()
         time.sleep(2)
         Test_track.el_show(self, 'text', '批量订阅', '批量订阅')
+        time.sleep(2)
+        # js = 'document.getElementByClassName(" icon-action-new ").click();'
+        # driver.execute_script(js)
 
-        driver.find_element_by_link_text('批量订阅').click()
+        driver.find_element_by_link_text('批量订阅').send_keys(Keys.ENTER)
         time.sleep(1)
         os.system(r'D:\模板文件\test.exe "D:\模板文件\新舱单节点查询导入模板.xlsx"')
-        Test_track.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '提示')
+        self.el_show('css', '#toast-container > div > div.toast-message', '提示')
+        Test_track.compare_el(self, 'css', '#toast-container > div > div.toast-message', '*成功', '批量订阅')
 
-        Test_track.compare_el(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '*成功', '批量订阅')
-
-    # 新舱单节点查询导入模板下载
     def down_qb(self):
+        """新舱单节点查询导入模板下载"""
         driver = self.driver
-        driver.find_element_by_link_text('物流节点跟踪').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('新舱单节点查询导入模板下载').click()
 
-    # 查验数据: 查询 > 添加订阅 > 批量订阅 > 重置
     def check(self):
+        """ 查验数据: 查询 > 添加订阅 > 批量订阅 > 重置"""
         driver = self.driver
-        driver.find_element_by_link_text('物流节点跟踪').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('查验数据').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         driver.execute_script(js)
@@ -59,9 +61,9 @@ class Test_track(Test_report):
 
         driver.find_element_by_link_text('重置').click()
 
-    # 查验数据查询导入模板下载
     def down_cd(self):
+        """查验数据查询导入模板下载"""
         driver = self.driver
-        driver.find_element_by_link_text('物流节点跟踪').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('查验数据').click()
         driver.find_element_by_link_text('查验数据查询导入模板下载').click()

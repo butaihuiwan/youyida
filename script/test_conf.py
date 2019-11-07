@@ -1,4 +1,4 @@
-from user_Script.test_report import Test_report
+from script.test_report import Test_report
 
 
 # 基础配置

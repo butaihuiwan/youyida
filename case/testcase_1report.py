@@ -2,7 +2,7 @@ import random
 import time
 from other.Commonlib import Commonshare
 
-from user_Script.test_report import Test_report
+from script.test_report import Test_report
 import unittest
 from selenium import webdriver
 

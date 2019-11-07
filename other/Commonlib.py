@@ -3,6 +3,8 @@ import re
 
 from selenium import webdriver
 import time
+
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 # from unittest import TestCase
@@ -12,15 +14,21 @@ from selenium.webdriver.common.by import By
 
 class Commonshare(object):
 
-    # 初始化方法
     def __init__(self):
-        # 创建浏览器对象
+        """初始化方法,创建浏览器对象"""
+
         self.driver = webdriver.Chrome()
         # 设置隐式等待
         self.driver.implicitly_wait(2)
 
+    def rm_imput(self, locate_type, value):
+        """清空指定元素输入框中内容"""
+        el = self.locateElement(locate_type, value)
+        el.send_keys(Keys.CONTROL + 'a')
+        el.send_keys(Keys.BACKSPACE)
+
     def locateElement(self, locate_type, value):
-        # 判断定位方式并调用相关方法
+        """判断定位方式并调用相关方法"""
 
         el = None
         if locate_type == 'id':
@@ -39,41 +47,29 @@ class Commonshare(object):
         if el is not None:
             return el
 
-    # 指定对某一元素的点击操作
     def click(self, locate_type, value):
-        # 调用定位方法进行元素定位
+        """指定对某一元素的点击操作"""
         el = self.locateElement(locate_type, value)
         # 执行点击操作
         el.click()
         time.sleep(1)
 
-    # 对指定的元素进行数据输入
     def input_data(self, locate_type, value, data):
-        # 调用定位方法进行元素定位
+        """ # 对指定的元素进行数据输入"""
         el = self.locateElement(locate_type, value)
         # 执行输入操作
         el.send_keys(data)
 
-    # 获取指定元素的文本内容
     def get_text(self, locate_type, value):
-        # 调用定位方法进行元素定位
+        """获取指定元素的文本内容"""
         el = self.locateElement(locate_type, value)
         return el.text
 
-    # 获取指定元素的属性值
     def get_attr(self, locate_type, value, data):
-        # 调用定位方法进行元素定位
+        """ 获取指定元素的属性值"""
         el = self.locateElement(locate_type, value)
         return el.get_attribute(data)
 
-    # 截图
-    def cut_image(self, image):
-        png_num = random.randint(1, 100)
-        print('%s截图的编号是：%s ' % (image, png_num))
-        url = '../image/' + str(png_num) + '.png'
-        self.driver.get_screenshot_as_file(url)
-
-    # 断言，输入输出是否相同
     def compare_el(self, locate_type, value, data_value, ex):
         """断言：是否相同
         locate_type：定位方式
@@ -84,13 +80,12 @@ class Commonshare(object):
         data_get = Commonshare.get_text(self, locate_type, value)
         print(data_get)
 
-        if re.search(data_value, data_get):
+        if re.search(data_get, data_value):
             print('%s ok' % ex)
         else:
             print('%s error' % ex)
             assert (1 == 2)
 
-    # 判断输入的元素是否加载成功
     def el_show(self, locate_type, value, ex):
         """判断输入的元素是否加载成功"""
         el = None
@@ -127,14 +122,14 @@ class Commonshare(object):
         assert (0 != num)
         print('ok')
 
-
     def save_img(self, img_name):
+        """截图"""
         self.driver.get_screenshot_as_file(r'C:\Users\wh\PycharmProjects\untitled\suit\image\%s' % img_name)
 
     # 收尾清理方法
     def __del__(self):
         time.sleep(1)
-        self.driver.close()
+        self.driver.quit()
 
 
 if __name__ == '__main__':

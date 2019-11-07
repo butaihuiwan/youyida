@@ -1,12 +1,12 @@
 import unittest
-# from user_Script.test_money import Test_money
+# from script.test_money import Test_money
 
 
 class Testcase_money(unittest.TestCase):
     """费用管理"""
 
     def test_0001(self):
-        from user_Script.test_money import Test_money
+        from script.test_money import Test_money
         """费用管理"""
         log = Test_money()
         log.login('customer1', '123456')
