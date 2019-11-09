@@ -89,7 +89,7 @@ Version in 0.8.1
 
 Version in 0.8.0
 * Define Template_mixin class for customization.
-* Workaround a IE 6 bug that it does not treat <script> block as CDATA.
+* Workaround a IE 6 bug that it does not treat <user_script> block as CDATA.
 
 Version in 0.7.1
 * Back port to Python 2.3 (Frank Horowitz).
@@ -211,7 +211,7 @@ class Template_mixin(object):
     %(stylesheet)s
 </head>
 <body>
-<script language="javascript" type="text/javascript">
+<user_script language="javascript" type="text/javascript">
 output_list = Array();
 
 /* level - 0:Summary; 1:Passed; 2:Failed; 3:Errored; 4:Skiped; 5:All */
@@ -416,7 +416,7 @@ function hide_img(obj){
     obj.parentElement.style.display = "none";
     obj.parentElement.getElementsByClassName('imgyuan')[0].innerHTML = "";
 }
-</script>
+</user_script>
 %(heading)s
 <div class="piechart">
     <div>
@@ -703,10 +703,10 @@ tr[id^=st]  td { background-color: #6f6f6fa1 !important ; }
     <th>&nbsp;</th>
 </tr>
 </table>
-<script>
+<user_script>
     showCase(0,%(channel)s);
     drawCircle('circle%(channel)s',%(Pass)s, %(fail)s, %(error)s);
-</script>
+</user_script>
 """
     # variables: (test_list, count, Pass, fail, error)
 
@@ -738,7 +738,7 @@ tr[id^=st]  td { background-color: #6f6f6fa1 !important ; }
            [x]</a>
         </div>
         <pre>
-        %(script)s
+        %(user_script)s
         </pre>
     </div>
     <!--css div popup end-->
@@ -967,7 +967,7 @@ class HTMLTestRunner(Template_mixin):
             self.description = description
 
     def run(self, test):
-        "Run the given test case or test suite."
+        "Run the given test user_case or test suite."
         self.startTime = datetime.datetime.now()
         result = _TestResult(self.verbosity, self.retry, self.save_last_try)
         test(result)

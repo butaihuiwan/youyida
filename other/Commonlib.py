@@ -1,9 +1,8 @@
 import random
 import re
-
 from selenium import webdriver
 import time
-
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,14 +11,11 @@ import unittest
 from selenium.webdriver.common.by import By
 
 
-class Commonshare(object):
+class Commonshare():
 
-    def __init__(self):
+    def __init__(self, driver):
         """初始化方法,创建浏览器对象"""
-
-        self.driver = webdriver.Chrome()
-        # 设置隐式等待
-        self.driver.implicitly_wait(2)
+        self.driver = driver
 
     def rm_imput(self, locate_type, value):
         """清空指定元素输入框中内容"""
@@ -29,7 +25,6 @@ class Commonshare(object):
 
     def locateElement(self, locate_type, value):
         """判断定位方式并调用相关方法"""
-
         el = None
         if locate_type == 'id':
             el = self.driver.find_element_by_id(value)
@@ -71,23 +66,24 @@ class Commonshare(object):
         return el.get_attribute(data)
 
     def compare_el(self, locate_type, value, data_value, ex):
-        """断言：是否相同
-        locate_type：定位方式
-        value: 定位表达式
-        data_value: 匹配值
-        ex：标题
+        """断言：
+                查看指定元素的文本属性值是否与给定参数值匹配
+            locate_type：定位方式
+            value: 定位表达式
+            data_value: 匹配值
+            ex：标题
         """
         data_get = Commonshare.get_text(self, locate_type, value)
         print(data_get)
 
-        if re.search(data_get, data_value):
+        if data_value in data_get:
             print('%s ok' % ex)
         else:
             print('%s error' % ex)
             assert (1 == 2)
 
     def el_show(self, locate_type, value, ex):
-        """判断输入的元素是否加载成功"""
+        """判断指定的元素是否加载成功"""
         el = None
         if locate_type == 'id':
             el = (By.ID, value)
@@ -111,25 +107,52 @@ class Commonshare(object):
             print('%s:ok' % ex)
         except Exception as e:
             print('error_错误：%s' % ex)
-            return False
+            # return False
 
     def get_length(self, locate_type, value):
-        """判断查询结果是否成功"""
+        """断言：
+                判断查询结果是否有值：选定元素 value 值的长度不为0则判断有值"""
         text = Commonshare.get_text(self, locate_type, value)
         print(text)
         num = len(text)
-
         assert (0 != num)
         print('ok')
 
-    def save_img(self, img_name):
-        """截图"""
-        self.driver.get_screenshot_as_file(r'C:\Users\wh\PycharmProjects\untitled\suit\image\%s' % img_name)
+    def mouse_move(self, locate_type, value):
+        """鼠标悬停到到指定元素
+         locate_type：定位方式
+        value: 定位表达式
+        """
+        target = self.locateElement(locate_type, value)
+        self.driver.execute_script("arguments[0].scrollIntoView();", target)
 
-    # 收尾清理方法
-    def __del__(self):
+    def keyboard(self):
+        """键盘操作"""
+        pass
+
+    def select(self, locate_type, value, select_type, select_value):
+        """下拉框选择
+        locate_type：定位方式
+        value: 定位表达式
+        select_type: 选择下拉框定位类型
+        select_value: 下拉框定位值
+        """
+        el = self.locateElement(locate_type, value)
+        select = Select(el)
+        if select_type == 'index':
+            select.select_by_index(select_value)
+        elif select_type == 'text':
+            select.select_by_visible_text(select_value)
+        elif select_type == 'value':
+            select.select_by_value(select_value)
         time.sleep(1)
-        self.driver.quit()
+
+    def time_select(self, value, date):
+        """选择时间
+        value : 元素id值
+        date 格式：2019-10-30"""
+        js = 'document.getElementById(value).value = data'
+        self.driver.execute_script(js)
 
 
 if __name__ == '__main__':

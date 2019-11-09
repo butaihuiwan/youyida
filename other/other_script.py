@@ -12,6 +12,9 @@ from .Commonlib import Commonshare
 class Data(Commonshare):
     """舱单数据"""
 
+    # def __init__(self, driver):
+    #     driver = self.driver
+
     def data_clear(self, TDH, CM, HC):
         """修改清空舱单数据"""
         # 选择发送人代码
@@ -130,19 +133,24 @@ class Data(Commonshare):
         try:
             WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
             print('总件毛体点击加载出来了')
+            self.el_show('xpath', '//*[@id="PIECE_NUM"]', '总数量')
             self.rm_imput('xpath', '//*[@id="PIECE_NUM"]')
+
+            self.el_show('xpath', '//*[@id="GWEIGHT_TON"]', '总数量')
             self.rm_imput('xpath', '//*[@id="GWEIGHT_TON"]')
+
+            self.el_show('xpath', '//*[@id="GVOL_NUM"]', '总数量')
             self.rm_imput('xpath', '//*[@id="GVOL_NUM"]')
         except Exception as e:
             print('总件毛体点击加载失败', e)
 
-    def add_data(self, TDH, CM, HC):
+    def add_data(self, seed, TDH, CM, HC):
         """新增填写的数据"""
 
         # 选择发送人代码
         element = self.driver.find_element_by_id('BILL_SENDER_CODE')
         select = Select(element)
-        select.select_by_visible_text('测试账号1')
+        select.select_by_visible_text(seed)
         time.sleep(1)
         # self.driver.implicitly_wait(10)
 
@@ -248,25 +256,11 @@ class Data(Commonshare):
             'WU')
         time.sleep(2)
         driver.find_element_by_id("buttonInputCargoDtl").click()
-
-        el = (By.XPATH, '/html/body/div[8]/div/div/div[2]/button')
-        # 判断元素是否加载出来
-        try:
-            WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
-            print('货物信息新增成功点击加载出来了')
-        except:
-            print('货物信息新增成功点击加载失败')
-
+        self.el_show('xpath', '/html/body/div[8]/div/div/div[2]/button', '货物信息新增成功点击加载')
         driver.find_element_by_xpath("/html/body/div[8]/div/div/div[2]/button").click()
 
         # 新增箱号集装箱细目
-        el = (By.XPATH, '//*[@id="text-body"]/div[2]/div[2]/a')
-        try:
-            WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
-            print('箱号新增点击加载出来了')
-        except:
-            print('箱号新增点击加载失败')
-
+        self.el_show('xpath', '//*[@id="text-body"]/div[2]/div[2]/a', '箱号新增点击加载')
         time.sleep(2)
         driver.find_element_by_xpath(
             '//*[@id="text-body"]/div[2]/div[2]/a').click()

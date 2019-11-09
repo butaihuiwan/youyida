@@ -1,10 +1,12 @@
 import unittest
 import datetime
-from case.testcase_1report import Testcace_report
+from user_case.testcase_1report import TestcaseReport
+from user_case.testcase_5money import TestcaseMoney
 # 导入形成测试报告模板类
 from other.BeautifulReport import BeautifulReport
-from case.testcase_2track import Testcase_track
+from user_case.testcase_2track import TestcaseTrack
 from other.HTMLTestRunner_cn import HTMLTestRunner
+from admin_case.testcase_1manage import CaseManage
 
 
 class SuitTest(unittest.TestCase):
@@ -15,14 +17,11 @@ class SuitTest(unittest.TestCase):
         filename = str(nowTime) + '.html'
         url = filepath + '/' + filename
         print(filename)
-        # 创建测试套件
-        # mysuit = unittest.TestSuite()
 
         # 测试case目录下所有的测试用例
-        test_dir = '../case'
+        test_dir = '../user_case'
         discover = unittest.defaultTestLoader.discover(test_dir, pattern='testcase_*.py')
 
         # 创建测试运行器,设置为每一个测试用例生成测试报告，运行测试套件中的测试用例
         result = BeautifulReport(discover)
-        # result = BeautifulReport(mysuit)
         result.report(description='悠易达测试报告', filename=filename, log_path=filepath)
