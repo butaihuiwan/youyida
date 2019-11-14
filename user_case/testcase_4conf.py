@@ -34,3 +34,13 @@ class TestcaseConf(unittest.TestCase):
         log = Test_conf(self.driver)
         log.test_conf()
         self.save_img('基础配置')
+
+    @BeautifulReport.add_test_img('基础配置-邮箱管理')
+    def test_0002(self):
+        Test_conf(self.driver).test_email()
+        self.save_img('基础配置-邮箱管理')
+
+    @BeautifulReport.add_test_img('基础配置-手机号管理')
+    def test_0003(self):
+        Test_conf(self.driver).test_mobile()
+        self.save_img('基础配置-手机号管理')

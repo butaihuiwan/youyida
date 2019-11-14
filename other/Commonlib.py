@@ -72,6 +72,7 @@ class Commonshare():
             value: 定位表达式
             data_value: 匹配值
             ex：标题
+            :return  i
         """
         data_get = Commonshare.get_text(self, locate_type, value)
         print(data_get)
@@ -80,7 +81,8 @@ class Commonshare():
             print('%s ok' % ex)
         else:
             print('%s error' % ex)
-            assert (1 == 2)
+            i = 0
+            return i
 
     def el_show(self, locate_type, value, ex):
         """判断指定的元素是否加载成功"""
@@ -103,20 +105,24 @@ class Commonshare():
             el = (By.TAG_NAME, value)
 
         try:
-            WebDriverWait(self.driver, 20, 0.5).until(EC.presence_of_element_located(el))
+            WebDriverWait(self.driver, 10, 0.5).until(EC.presence_of_element_located(el))
             print('%s:ok' % ex)
         except Exception as e:
             print('error_错误：%s' % ex)
-            # return False
 
-    def get_length(self, locate_type, value):
+
+    def get_length(self, locate_type, value, ex):
         """断言：
                 判断查询结果是否有值：选定元素 value 值的长度不为0则判断有值"""
         text = Commonshare.get_text(self, locate_type, value)
         print(text)
         num = len(text)
-        assert (0 != num)
-        print('ok')
+        if 0 != num:
+            print('%s ok' % ex)
+        else:
+            print('%s error' % ex)
+            i = 0
+            return i
 
     def mouse_move(self, locate_type, value):
         """鼠标悬停到到指定元素

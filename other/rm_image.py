@@ -13,4 +13,3 @@ def rm_image():
     os.mkdir(r'C:\Users\wh\PycharmProjects\youyida\suit\image')
 
 
-rm_image()

@@ -23,21 +23,19 @@ class TestManage(Commonshare):
          用户管理：查询，余额（用户费用明细），预配舱单，提单确认，口岸服务，港区服务，查验服务，新增，新增二级代发账号，重置
     """
 
-    def manifest_im(self):
+    def manifest_im(self, name):
         """ 舱单信息总清单：查询，查看 ,excel历史，报文历史，重置"""
         driver = self.driver
-        driver.find_element_by_link_text('舱单管理').click()
-        driver.find_element_by_xpath('//*[@id="form"]/div/div[2]/div[1]/input').send_keys('TEST240')
-        el = driver.find_element_by_xpath('//*[@id="form"]/div/div[2]/div[1]/input').get_attribute('value')
-        print(el)
-        """判断是否输入"""
-        try:
-            assert ('TEST240' == el)
-            print('ok')
-        except Exception as e:
-            pass
+        assert_list = []
+        driver.find_element_by_link_text(name).click()
+        time.sleep(2)
+        self.rm_imput('xpath', '//*[@id="from"]')
+        driver.find_element_by_xpath('//*[@id="from"]').send_keys('2019-10-30')
         driver.find_element_by_link_text('查询').click()
-        self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr/td[14]/a[1]', '查看点击加载')
+        self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr/td[14]/a[1]', '查询数据"查看”加载')
+        """断言是否查出数据"""
+        i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr/td[14]/a[1]', '舱单信息总清单查询')
+        assert_list.append(i)
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr/td[14]/a[1]').click()
         driver.find_element_by_css_selector('#close > .fa').click()
         time.sleep(1)
@@ -58,6 +56,8 @@ class TestManage(Commonshare):
         num = len(el)
         """判断是否重置"""
         assert (0 == num)
+        if i == 0:
+            assert (1 == 2)
 
     def substitute_im(self):
         """ 代发信息总清单：查询，查看 ,excel历史，报文历史，重置"""
@@ -65,6 +65,7 @@ class TestManage(Commonshare):
         driver.find_element_by_link_text('舱单管理').click()
         driver.find_element_by_link_text('代发信息总清单').click()
         time.sleep(1)
+        self.time_select('from', '2019-10-30')
         driver.find_element_by_link_text('查询').click()
         time.sleep(1)
         self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[17]/a[1]', '查看点击加载')
@@ -86,24 +87,28 @@ class TestManage(Commonshare):
         num = len(el)
         assert (0 == num)
 
-    def manifest_im_sas(self):
+    def manifest_im_sas(self, name):
         """舱单信息统计: 查询，重置"""
         driver = self.driver
-        driver.find_element_by_link_text('舱单管理').click()
+        assert_list = []
+        driver.find_element_by_link_text(name).click()
         driver.find_element_by_link_text('舱单信息统计').click()
         js = 'document.getElementById("from").value = "2018-10-30"'
         driver.execute_script(js)
         self.el_show('text', '查询', '查询点击加载')
         driver.find_element_by_link_text('查询').click()
         # 判断查询
-        self.get_length('xpath', '//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div[3]/div[1]/label[2]')
+        i = self.get_length('xpath',
+                            '//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div[3]/div[1]/label[2]',
+                            '舱单信息统计查询')
+        assert_list.append(i)
         self.el_show('text', '重置', '重置点击加载')
         driver.find_element_by_link_text('重置').click()
 
-    def manifest_node_im_sas(self):
+    def manifest_node_im_sas(self, name):
         """ 舱单节点信息统计：查询，重置"""
         driver = self.driver
-        driver.find_element_by_link_text('舱单管理').click()
+        driver.find_element_by_link_text(name).click()
         driver.find_element_by_link_text('舱单节点信息统计').click()
         js = 'document.getElementById("from").value = "2018-10-30"'
         driver.execute_script(js)
@@ -116,13 +121,17 @@ class TestManage(Commonshare):
     def money_sas(self):
         """ 计费统计: 查询，扣费明细下载 """
         driver = self.driver
+        assert_list = []
         driver.find_element_by_link_text('舱单管理').click()
         driver.find_element_by_link_text('计费统计').click()
         js = 'document.getElementById("from").value = "2019-08-30"'
         driver.execute_script(js)
         self.el_show('text', '查询', '查询点击加载')
         driver.find_element_by_link_text('查询').click()
-        self.compare_el('xpath', '//*[@id="toast-container"]/div/div[2]', '*成功', '查询')
+        i = self.compare_el('xpath', '//*[@id="toast-container"]/div/div[2]', '*成功', '查询')
+        assert_list.append(i)
+        if 0 in assert_list:
+            assert (1 == 2)
         driver.find_element_by_link_text('扣费明细下载').click()
 
     def water_list(self):

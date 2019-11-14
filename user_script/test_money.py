@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from other.Commonlib import Commonshare
-from .test_report import TestReport
+
 from selenium.webdriver import ActionChains
 
 
@@ -29,7 +29,7 @@ class TestMoney(Commonshare):
             '2019-10-30')
         driver.find_element_by_xpath(
             '//*[@id="column-container"]/div[2]/div/div/div/div/div/div[1]/div/form/div/div[1]/div[3]/a').click()
-        TestReport.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '预配舱单计费查询')
+        self.el_show('xpath', '//*[@id="toast-container"]/div/div[2]', '预配舱单计费查询')
         driver.find_element_by_xpath('//*[@id="downloadBtn"]').click()
 
         # 口岸数据服务计费
@@ -45,7 +45,7 @@ class TestMoney(Commonshare):
             '2019-10-30')
         driver.find_element_by_xpath(
             '//*[@id="column-container"]/div[2]/div/div/div/div/div/div[2]/div/form/div/div[1]/div[3]/a').click()
-        TestReport.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '口岸数据服务计费查询')
+        self.el_show('xpath', '//*[@id="toast-container"]/div/div[2]', '口岸数据服务计费查询')
 
         # 港区数据服务计费
         driver.find_element_by_xpath(
@@ -60,7 +60,7 @@ class TestMoney(Commonshare):
             '2019-10-30')
         driver.find_element_by_xpath(
             '//*[@id="column-container"]/div[2]/div/div/div/div/div/div[3]/div/form/div/div[1]/div[3]/a').click()
-        TestReport.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '港区数据服务计费')
+        self.el_show('xpath', '//*[@id="toast-container"]/div/div[2]', '港区数据服务计费')
 
         # 查验数据服务计费
         driver.find_element_by_xpath(
@@ -75,19 +75,29 @@ class TestMoney(Commonshare):
             '2019-10-30')
         driver.find_element_by_xpath(
             '//*[@id="column-container"]/div[2]/div/div/div/div/div/div[4]/div/form/div/div[1]/div[3]/a').click()
-        TestReport.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '查验数据服务计费')
+        self.el_show('xpath', '//*[@id="toast-container"]/div/div[2]', '查验数据服务计费')
 
         """水单管理： 上传 > 查看水单"""
         driver.find_element_by_link_text('水单管理').click()
         # 上传
         driver.find_element_by_link_text('上传').click()
+        self.el_show('xpath', '//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[1]/div/div/input', '充值金额加载')
+        time.sleep(2)
         driver.find_element_by_xpath('//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[1]/div/div/input').send_keys(
             '100')
+
+        self.el_show('xpath', '//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[2]/div/div/input', '充值日期加载')
+        time.sleep(2)
         driver.find_element_by_xpath('//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[2]/div/div/input').send_keys(
             '2019-10-30')
+
+        self.el_show('xpath', '//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[2]/div/div/input', '付款人加载')
+        time.sleep(2)
         driver.find_element_by_xpath('//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[2]/div/div/input').click()
         driver.find_element_by_xpath('//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[3]/div/div/input').send_keys(
             '100')
+
+        self.el_show('xpath', '//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[3]/div/div/input', '支付类型')
         el = driver.find_element_by_xpath('//*[@id="exchangeEditForm"]/div[1]/div/div/div/div[4]/div/div/select')
         select = Select(el)
         select.select_by_visible_text('代付')

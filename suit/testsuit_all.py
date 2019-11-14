@@ -6,8 +6,8 @@ from user_case.testcase_5money import TestcaseMoney
 from other.BeautifulReport import BeautifulReport
 from user_case.testcase_2track import TestcaseTrack
 from other.HTMLTestRunner_cn import HTMLTestRunner
-from admin_case.testcase_1manage import CaseManage
-
+from admin_case.testcase_1manage_admin import CaseManage
+from other import rm_image
 
 class SuitTest(unittest.TestCase):
     def test_suit(self):
@@ -17,7 +17,11 @@ class SuitTest(unittest.TestCase):
         filename = str(nowTime) + '.html'
         url = filepath + '/' + filename
         print(filename)
-
+        """删除img目录中上次保存的图片"""
+        try:
+            rm_image.rm_image()
+        except Exception as e:
+            pass
         # 测试case目录下所有的测试用例
         test_dir = '../user_case'
         discover = unittest.defaultTestLoader.discover(test_dir, pattern='testcase_*.py')

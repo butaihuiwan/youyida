@@ -8,11 +8,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from other.other_script import Data
+from other.other_script import Date_add_clear
 
 
 # 预报舱单申报模块
-class TestReport(Data):
+class TestReport(Date_add_clear):
     """预报舱单申报模块"""
 
     def update_mm(self):
@@ -53,13 +53,7 @@ class TestReport(Data):
         self.driver.find_element_by_link_text('查询').click()
         self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[10]/a[1]', '待发送-查询')
 
-    def add_box(self, seed, TDH, CM, HC):
-        """修改时数据"""
-
-        self.data_clear(TDH, CM, HC)
-        self.add_data(seed, TDH, CM, HC)
-
-    def add_creat(self, seed, TDH, CM, HC):
+    def add_creat(self, TDH, CM, HC):
         """
         新增--待发送 > 创建
                :param TDH: 提单号
@@ -72,49 +66,12 @@ class TestReport(Data):
         self.driver.find_element_by_link_text('新增').click()
         time.sleep(1)
         # 选择发送人代码
-        element = self.driver.find_element_by_id('BILL_SENDER_CODE')
-        select = Select(element)
-        select.select_by_visible_text(seed)
-        time.sleep(1)
-        # 选择接受人代码
-        element = self.driver.find_element_by_id('BILL_RECEIVER_CODE')
-        select = Select(element)
-        select.select_by_visible_text('民生船代')
-        # 订舱信息
-        self.driver.find_element_by_id('BILL_NBR').send_keys(TDH)
-        self.driver.find_element_by_id('E_SHIP_NAM').send_keys(CM)
-        self.driver.find_element_by_id('OUT_VOYAGE_NO').send_keys(HC)
-        # 承运人代码
-        self.driver.find_element_by_id('TRUST_INFO').send_keys('YML：阳明')
-        # 发货人代码
-        self.driver.find_element_by_id('SHIPPER_COD').send_keys('USCI+91320412MA1MGBN10R')
-        # 收货人代码
-        self.driver.find_element_by_id('CONSIGNEE_COD').send_keys('CHAMBER OF COMMERCE NUMBER+198326691502')
-        # 通知人代码
-        self.driver.find_element_by_id('NOTIFY_COD').send_keys('CHAMBER OF COMMERCE NUMBER+198326691502')
-        self.driver.find_element_by_link_text('创建').click()
+        self.add_data(TDH, CM, HC)
         # 判断创建成功点击确定按钮是否加载出来
-        self.el_show('xpath', '/html/body/div[8]/div/div/div[1]/div', '待发送新增-创建')
-
-    # 新增--待发送 > 暂存
-    def temporary_add(self, seed, TDH, CM, HC):
-        """
-        新增--待发送 > 暂存
-        :param TDH: 提单号
-     :param CM: 船名
-        :param HC: 航次
-        :return:
-        """
-        self.driver.find_element_by_link_text('预配舱单申报').click()
-        self.driver.find_element_by_link_text('申报预配舱单').click()
-        self.driver.find_element_by_link_text('新增').click()
-        time.sleep(1)
-        TestReport.add_data(self, seed, TDH, CM, HC)
-        self.driver.find_element_by_link_text('暂存').click()
-        TestReport.compare_el(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '成功', '待发送新增-暂存')
+        self.exist_code()
 
     # 新增--待发送 > 发送
-    def seed(self, seed, TDH, CM, HC):
+    def seed(self, TDH, CM, HC):
         """
         新增--待发送 > 发送
         :param TDH: 提单号
@@ -126,13 +83,9 @@ class TestReport(Data):
         self.driver.find_element_by_link_text('申报预配舱单').click()
         self.driver.find_element_by_link_text('新增').click()
         time.sleep(1)
-        TestReport.add_data(self, seed, TDH, CM, HC)
-        self.driver.find_element_by_xpath('//*[@id="sendButton"]').click()
-        self.el_show('xpath', '/html/body/div[10]/div/div/div[2]/button[2]', '确定点击加载')
-        time.sleep(2)
-        self.driver.find_element_by_xpath('/html/body/div[10]/div/div/div[2]/button[2]').click()
-        time.sleep(2)
-        TestReport.compare_el(self, 'xpath', '/html/body/div[10]/div/div/div[1]/div', '成功', '待发送新增-发送')
+        self.add_data(TDH, CM, HC)
+        self.add_data_box()
+        self.send_code()
 
     # 删除--待发送
     def rm_wait_seed(self):
@@ -144,26 +97,34 @@ class TestReport(Data):
         time.sleep(3)
         driver.find_element_by_css_selector("button.btn.btn-primary").click()
 
-    # 修改 ：暂存，发送-- 待发送
-    def update_wait_seed(self, seed,TDH, CM, HC):
-        """修改 -- 待发送"""
+    # 修改 ：暂存，-- 待发送
+    def update_wait_seed(self, TDH, CM, HC):
+        """修改 ：暂存-- 待发送"""
         driver = self.driver
         driver.find_element_by_link_text(u"预配舱单申报").click()
-
         driver.find_element_by_xpath(u"(//a[contains(text(),'修改')])[1]").click()
         num = str(random.randint(1, 1000))
-        driver.find_element_by_id("BILL_NBR").send_keys(num)
-        driver.find_element_by_link_text(u"暂存").click()
+        self.el_show('xpath', '//input[@name="FREIGHT_NBR"]', '运编号')
+        time.sleep(2)
+        self.driver.find_element_by_xpath('//input[@name="FREIGHT_NBR"]').send_keys(num)
+        self.el_show('text', '暂存', '暂存点击加载')
+        driver.find_element_by_link_text("暂存").send_keys(Keys.ENTER)
         # 判断是否提示成功
-        TestReport.compare_el(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '成功', '待发送-修改-暂存')
+        self.el_show('xpath', '//*[@id="toast-container"]/div/div[2]', '暂存提示成功加载')
+        TestReport.compare_el(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '成功',
+                              '待发送-修改-暂存')
 
-        time.sleep(2)
-        self.add_box(seed,TDH, CM, HC)
-        self.driver.find_element_by_xpath('//*[@id="sendButton"]').click()
-        self.driver.find_element_by_xpath('/html/body/div[10]/div/div/div[2]/button[2]').click()
-        time.sleep(2)
-        # 是否提示成功
-        TestReport.compare_el(self, 'xpath', '/html/body/div[10]/div/div/div[1]/div', '成功', '待发送修改-发送')
+    # 修改 ：发送，-- 待发送
+    def update_wait_exist(self, TDH, CM, HC):
+        """修改 ：发送，-- 待发送"""
+        driver = self.driver
+        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_xpath(u"(//a[contains(text(),'修改')])[1]").click()
+        self.data_clear(TDH, CM, HC)
+        self.add_data(TDH, CM, HC)
+        self.data_clear_box()
+        self.add_data_box()
+        self.send_code()
 
     # Excel历史查看--待发送
     def excel_history(self):
@@ -190,15 +151,13 @@ class TestReport(Data):
         """批量发送-待发送"""
         driver = self.driver
         driver.find_element_by_link_text(u"预配舱单申报").click()
-        # js = 'document.getElementById("from").value = "2018-09-08"'
-        # self.driver.execute_script(js)
-        self.time_select('from','2019-8-30')
+        self.rm_imput('xpath', '//*[@id="from"]')
+        driver.find_element_by_xpath('//*[@id="from"]').send_keys('2019-8-30')
         self.el_show('text', '查询', '查询点击加载')
         self.driver.find_element_by_link_text('查询').click()
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/thead/tr/th[1]/div/span/input').click()
         driver.find_element_by_link_text(u"批量发送").click()
         time.sleep(2)
-        TestReport.el_show(self, 'xpath', '/html/body/div[7]/div/div/div[1]/div', '待发送-批量发送')
 
     # 修改--已发送  （暂存，重新发送）
     def update_seed(self):
@@ -208,16 +167,20 @@ class TestReport(Data):
         driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"修改").click()
         num = str(random.randint(1, 1000))
-        print(num)
-        self.el_show('xpath', '//*[@id="formDtl"]/div[2]/table/tbody/tr[1]/td[2]', '提单号')
+        self.el_show('xpath', '//input[@name="FREIGHT_NBR"]', '运编号')
+        time.sleep(2)
         self.driver.find_element_by_xpath('//input[@name="FREIGHT_NBR"]').send_keys(num)
+        self.el_show('text', '暂存', '暂存点击加载')
         driver.find_element_by_link_text(u"暂存").click()
-        driver.find_element_by_css_selector("button.toast-close-button").click()
         TestReport.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '已发送-修改：暂存')
-
+        self.el_show('text', '更改报文发送', '更改报文发送点击加载')
         driver.find_element_by_link_text(u"更改报文发送").click()
+        self.el_show('css', 'button.btn.btn-primary', '更改报文发送确认点击加载')
+        time.sleep(2)
         driver.find_element_by_css_selector("button.btn.btn-primary").click()
-        driver.find_element_by_xpath("//i[@onclick='returnQuery()']").click()
+        self.el_show('xpath', "//i[@onclick='returnQuery()']", '更改报文发送确认点击加载')
+        time.sleep(2)
+        # driver.find_element_by_xpath("//i[@onclick='returnQuery()']").click()
 
     # 报文历史查看--已发送
     def report_history(self):
@@ -238,196 +201,91 @@ class TestReport(Data):
         time.sleep(2)
         driver.find_element_by_id("buttonCancelEditExcel").click()
 
-    # 已发送-复制新增 添加数据
-    def copy_add_data(self, TDH, CM, HC):
-        """已发送-复制新增 添加数据"""
+    # 复制新增--已发送 > 暂存
+    def copy_add01(self, TDH, CM, HC):
+        """
+        复制新增--> 暂存
+        TDH = 提单号； CM = 船名；   HC = 航次
+        :return:
+        """
         driver = self.driver
         driver.find_element_by_link_text(u"预配舱单申报").click()
         driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"复制新增").click()
         time.sleep(1)
         driver.find_element_by_id("BILL_NBR").clear()
-        driver.find_element_by_id("BILL_NBR").send_keys(TDH)
         driver.find_element_by_id("E_SHIP_NAM").clear()
-        driver.find_element_by_id("E_SHIP_NAM").send_keys(CM)
         driver.find_element_by_id("OUT_VOYAGE_NO").clear()
-        driver.find_element_by_id("OUT_VOYAGE_NO").send_keys(HC)
-        target = driver.find_element_by_xpath(
-            '//*[@id="text-body"]/div[2]/div[1]/a')
-        driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标拖动到可见的元素去
-
-        # 货物信息新增
-
-        driver.find_element_by_css_selector(
-            '#text-body > div.body-div.portlet.light.bordered > div:nth-child(2) > a').click()
-        driver.find_element_by_css_selector("div.col-md-8 > #PIECE_NUM").send_keys("220")
-        driver.find_element_by_css_selector("div.col-md-8 > #GWEIGHT_TON").send_keys("220")
-        time.sleep(2)
-        driver.find_element_by_css_selector(
-            "#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(6) > div > div > input").send_keys(
-            "220")
-        element = driver.find_element_by_xpath(
-            "//form[@id='inputCargoDtl']/div/div/div/div/div[3]/div/div/span/input[2]")
-        element.send_keys(Keys.CONTROL, 'a')
-        element.send_keys('Rod/RD')
-        driver.find_element_by_css_selector("div.col-md-8 > #GVOL_NUM").send_keys("220")
-        driver.find_element_by_css_selector(
-            '#inputCargoDtl > div > div.modal-body > div > div > div:nth-child(8) > div > div > textarea').send_keys(
-            'WU')
-        time.sleep(2)
-        driver.find_element_by_id("buttonInputCargoDtl").click()
-        # add.cut_image('新增2')
-        # png_num = random.randint(1, 100)
-        # url = '../image/' + str(png_num) + '.png'
-        # self.driver.get_screenshot_as_file(url)
-        # print('新增截图2的编号是：%s' % png_num)
-
-        el = (By.XPATH, '/html/body/div[8]/div/div/div[2]/button')
-        try:
-            WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
-            print('货物信息新增成功点击加载出来了')
-        except:
-            print('货物信息新增成功点击加载失败')
-
-        driver.find_element_by_xpath("/html/body/div[8]/div/div/div[2]/button").click()
-
-        # 新增箱号集装箱细目
-        el = (By.XPATH, '//*[@id="text-body"]/div[2]/div[2]/a')
-        try:
-            WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
-            print('箱号新增点击加载出来了')
-        except:
-            print('箱号新增点击加载失败')
-
-        time.sleep(2)
-        driver.find_element_by_xpath(
-            '//*[@id="text-body"]/div[2]/div[2]/a').click()
-        driver.find_element_by_css_selector('#inputCntrDtl > div:nth-child(1) > div > div > input').send_keys(
-            "TEST1234568")  # 箱号
-        element_03 = self.driver.find_element_by_xpath('//*[@id="CNTR_SIZE_COD"]')
-        select_03 = Select(element_03)
-        select_03.select_by_visible_text('20')  # 箱型
-        element_03 = self.driver.find_element_by_xpath('// *[ @ id = "CNTR_TYPE_COD"]')
-        select_03 = Select(element_03)
-        select_03.select_by_visible_text('GP')  # 箱型
-
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(2) > div > div > input").send_keys(
-            "220")  # 铅封号
-
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(4) > div > div > input").send_keys(
-            "220")  # 件数
-
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(6) > div > div > input").send_keys(
-            "220")  # 货内箱体积
-
-        driver.find_element_by_css_selector("#inputCntrDtl > div:nth-child(5) > div > div > input").send_keys(
-            "220")  # 货内货重
-
-        Select(driver.find_element_by_xpath("//div[7]/div/div/select")).select_by_visible_text(u"整箱")
-        # Select(driver.find_element_by_id("CNTR_TYPE_COD")).select_by_visible_text("BK")
-        Select(driver.find_element_by_id("SOC_ID")).select_by_visible_text(u"货主箱")
-
-        time.sleep(2)
-        # 点击保存新增箱号
-        driver.find_element_by_id("buttonInputCntrDtl").click()  # /html/body/div[10]/div/div/div[2]/button
-
-        time.sleep(1)
-        # 点击箱号新增操作成功
-        driver.find_element_by_xpath('/html/body/div[10]/div/div/div[2]/button').click()
-
-        #  总件毛体
-        el = (By.XPATH, '//*[@id="PIECE_NUM"]')
-        try:
-            WebDriverWait(driver, 20, 0.5).until(EC.presence_of_element_located(el))
-            print('总件毛体点击加载出来了')
-        except Exception as e:
-            print('总件毛体点击加载失败', e)
-        driver.find_element_by_xpath(
-            "//*[@id='PIECE_NUM']").send_keys('220')
-
-        driver.find_element_by_xpath(
-            '//*[@id="GWEIGHT_TON"]').send_keys(
-            '220')
-        driver.find_element_by_xpath(
-            '//*[@id="GVOL_NUM"]').send_keys(
-            '220')
-        time.sleep(3)
-        driver.find_element_by_xpath(
-            '//*[@id="GWEIGHT_TON"]').click()
-        # 点击发送
-        target = driver.find_element_by_xpath(
-            '//*[@id="sendButton"]')
-        driver.execute_script("arguments[0].scrollIntoView();", target)  # 鼠标下拉框向上移动
-
-    # 复制新增--已发送 > 暂存
-    def copy_add01(self, TDH, CM, HC):
-        """
-        复制新增--已发送 > 暂存
-        TDH = 提单号； CM = 船名；   HC = 航次
-        :return:
-        """
-        TestReport.copy_add_data(self, TDH, CM, HC)
-        self.driver.find_element_by_link_text('暂存').click()
-        time.sleep(2)
-        TestReport.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '已发送-复制新增：暂存')
+        driver.find_element_by_id('BILL_NBR').send_keys(TDH)
+        driver.find_element_by_id('E_SHIP_NAM').send_keys(CM)
+        driver.find_element_by_id('OUT_VOYAGE_NO').send_keys(HC)
+        self.exist_code()
 
     # 复制新增--已发送 > 发送
-    def copy_add03(self, TDH, CM, HC):
+    def copy_add02(self, TDH, CM, HC):
         """
         复制新增--已发送 > 发送
         TDH = 提单号； CM = 船名；   HC = 航次
         :return:
         """
-        TestReport.copy_add_data(self, TDH, CM, HC)
-        self.driver.find_element_by_xpath('//*[@id="sendButton"]').click()
-        time.sleep(2)
-        self.driver.find_element_by_xpath('/html/body/div[10]/div/div/div[2]/button[2]').click()
-        TestReport.el_show(self, 'xpath', '/html/body/div[10]/div/div/div[1]/div', '待发送修改-发送')
-
-    # 查询-重置-已发送清单导出--已发送
-    def select_seed(self, TDH, YBH, CM, HC):
         driver = self.driver
         driver.find_element_by_link_text(u"预配舱单申报").click()
         driver.find_element_by_link_text(u"已发送").click()
-        driver.find_element_by_name("billnbr").send_keys(TDH)
-        driver.find_element_by_name("freightnbr").send_keys(YBH)
-        driver.find_element_by_name("shipnam").send_keys(CM)
-        driver.find_element_by_name("voyageno").send_keys(HC)
+        driver.find_element_by_link_text(u"复制新增").click()
+        time.sleep(1)
+        driver.find_element_by_id('BILL_NBR').send_keys(TDH)
+        driver.find_element_by_id('E_SHIP_NAM').send_keys(CM)
+        driver.find_element_by_id('OUT_VOYAGE_NO').send_keys(HC)
+        self.add_data_box()
+        self.send_code()
+
+    def select_seed(self):
+        driver = self.driver
+        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"查询").click()
         driver.find_element_by_xpath(
             '//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div/div/div/div/div[3]/div/a[2]').click()
         driver.find_element_by_link_text('已发送清单导出').click()
 
-    # 导入EDI舱单报文
     def import_edi(self):
         driver = self.driver
+        asser_list = []
         driver.find_element_by_link_text(u"预配舱单申报").click()
         driver.find_element_by_link_text('导入EDI舱单报文').click()
         driver.find_element_by_xpath('//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div[1]/div/a').click()
-        os.system(r'D:\模板文件\test.exe "C:\Users\wh\Desktop\测试流程\EDI舱单模板.txt"')
         time.sleep(2)
-        TestReport.el_show(self, 'xpath', '//*[@id="uploadEdiInfo"]/div/table/thead/tr/th[2]', '导入EDI舱单报文')
+        os.system(r'D:\模板文件\test.exe "D:\模板文件\EDI舱单模板.txt"')
+        time.sleep(2)
+        self.el_show('xpath','//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]','导入EDI舱单报文')
+        i = self.compare_el('xpath', '//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]', '通过', '导入EDI舱单报文')
+        asser_list.append(i)
+        if 0 in asser_list:
+            assert (1 == 2)
 
-    # EDI解析记录
+
     def record_edi(self):
         """# EDI解析记录"""
         driver = self.driver
+        assert_list = []
         driver.find_element_by_link_text(u"预配舱单申报").click()
         driver.find_element_by_link_text('EDI解析记录').click()
-        # driver.find_element_by_xpath('//*[@id="from"]').click()
         js = 'document.getElementById("from").value = "2019-08-06"'
         driver.execute_script(js)
         time.sleep(2)
         driver.find_element_by_link_text('查询').click()
         # 判断查询结果是否成功
-        TestReport.get_length(self, 'xpath', '//*[@id="purchaseOrdersearchTable"]/thead/tr/th[6]')
+        i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/thead/tr/th[6]', 'EDI解析记录查询')
+        assert_list.append(i)
         driver.find_element_by_link_text('重置').click()
         time.sleep(2)
+        if 0 in assert_list:
+            assert (1 == 2)
 
-    # 代发舱单管理--待处理--查询 > 查看 > 报文历史 > 已处理 > 撤回
     def manifest_management(self):
         """ 代发舱单管理--待处理--查询 > 查看 > 报文历史 > 已处理 > 撤回"""
         driver = self.driver
+        assert_list = []
         driver.find_element_by_link_text(u"预配舱单申报").click()
         driver.find_element_by_link_text('代发舱单管理').click()
         driver.find_element_by_link_text('待处理').click()
@@ -435,14 +293,16 @@ class TestReport(Data):
         driver.execute_script(js)
         time.sleep(2)
         driver.find_element_by_link_text('查询').click()
-        TestReport.get_length(self, 'xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[5]')
+        i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[5]', '代发舱单管理查询')
+        assert_list.append(i)
 
         # 查看
         self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[1]', '查看')
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[1]').click()
         self.el_show('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', 'xx')
         time.sleep(2)
-        self.get_length('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]')
+        i = self.get_length('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', '代发舱单管理查看')
+        assert_list.append(i)
         time.sleep(2)
 
         driver.find_element_by_css_selector('#close > .fa').click()
@@ -468,11 +328,14 @@ class TestReport(Data):
         driver.find_element_by_xpath('//*[@id="message"]').send_keys('111')
         self.el_show('text', '确认', '确认点击')
         driver.find_element_by_link_text('确认').click()
+        if 0 in assert_list:
+            assert (1 == 2)
 
     # 代发舱单管理--已处理--查询 > 查看 > 报文历史 > 改单信息
     def manifest_management01(self):
         """代发舱单管理--已处理--查询 > 查看 > 报文历史 > 改单信息"""
         driver = self.driver
+        assert_list = []
         driver.find_element_by_link_text(u"预配舱单申报").click()
         driver.find_element_by_link_text('代发舱单管理').click()
         driver.find_element_by_link_text('已处理').click()
@@ -480,13 +343,14 @@ class TestReport(Data):
         driver.execute_script(js)
         time.sleep(2)
         driver.find_element_by_link_text('查询').click()
-        TestReport.get_length(self, 'xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[5]')
-
+        i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[5]', '代发舱单管理查询')
+        assert_list.append(i)
         # 查看
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[13]/a[1]').click()
         self.el_show('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', 'xx')
         time.sleep(2)
-        self.get_length('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]')
+        i = self.get_length('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', '代发舱单管理查看')
+        assert_list.append(i)
         time.sleep(2)
         driver.find_element_by_css_selector('#close > .fa').click()
 
@@ -496,6 +360,8 @@ class TestReport(Data):
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[13]/a[2]').click()
         self.el_show('text', '取消', '取消点击')
         driver.find_element_by_link_text('取消').click()
+        if 0 in assert_list:
+            assert (1 == 2)
 
     # 港口代码参照表下载，舱单模板下载
     def down_db(self):

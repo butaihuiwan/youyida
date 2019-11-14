@@ -18,6 +18,7 @@ class TestTrack(Commonshare):
     def query_track(self):
         """口岸数据 : 查询 > 添加订阅 > 批量订阅 > 重置 > 舱单运抵对比"""
         driver = self.driver
+        assert_list = []
         driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('口岸数据').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
@@ -26,7 +27,8 @@ class TestTrack(Commonshare):
         driver.find_element_by_xpath('//*[@id="BARGE_NAM"]').send_keys('W')
         driver.find_element_by_xpath('//*[@id="BARG_VOYAGE_NO"]').send_keys('WW')
         driver.find_element_by_link_text('查询').click()
-        TestReport.get_length(self, 'xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[4]')
+        i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[4]', '口岸数据查询')
+        assert_list.append(i)
         driver.find_element_by_link_text('重置').click()
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[8]/a').click()
         TestTrack.el_show(self, 'text', '取消', '取消')
@@ -36,12 +38,14 @@ class TestTrack(Commonshare):
         time.sleep(2)
         # js = 'document.getElementByClassName(" icon-action-new ").click();'
         # driver.execute_script(js)
-
         driver.find_element_by_link_text('批量订阅').send_keys(Keys.ENTER)
         time.sleep(1)
         os.system(r'D:\模板文件\test.exe "D:\模板文件\新舱单节点查询导入模板.xlsx"')
         self.el_show('css', '#toast-container > div > div.toast-message', '提示')
-        TestTrack.compare_el(self, 'css', '#toast-container > div > div.toast-message', '*成功', '批量订阅')
+        i = self.compare_el('css', '#toast-container > div > div.toast-message', '*成功', '批量订阅')
+        assert_list.append(i)
+        if 0 in assert_list:
+            assert (1 == 2)
 
     def down_db(self):
         """新舱单节点查询导入模板下载"""
@@ -52,13 +56,16 @@ class TestTrack(Commonshare):
     def check(self):
         """ 查验数据: 查询 > 添加订阅 > 批量订阅 > 重置"""
         driver = self.driver
+        assert_list = []
         driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('查验数据').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         driver.execute_script(js)
         driver.find_element_by_link_text('查询').click()
-        TestReport.get_length(self, 'xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[2]')
-
+        i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[2]','查验数据')
+        assert_list.append(i)
+        if 0 in assert_list:
+            assert (1 == 2)
         driver.find_element_by_link_text('重置').click()
 
     def down_cd(self):

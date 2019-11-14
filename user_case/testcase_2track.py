@@ -12,16 +12,16 @@ from other.BeautifulReport import BeautifulReport
 
 
 class TestcaseTrack(unittest.TestCase):
-    """物流节点跟踪"""
+    """数据服务"""
 
     def setUp(self) -> None:
         self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
         time.sleep(1)
+        driver.maximize_window()
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
 

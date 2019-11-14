@@ -33,7 +33,7 @@ class CaseManage(unittest.TestCase):
     @BeautifulReport.add_test_img('舱单信息总清单')
     def test_0001(self):
         """ 舱单信息总清单：查询，查看 ,excel历史，报文历史，重置"""
-        TestManage(self.driver).manifest_im()
+        TestManage(self.driver).manifest_im('舱单管理')
         self.save_img('舱单信息总清单')
 
     @BeautifulReport.add_test_img('代发信息总清单')
@@ -45,19 +45,19 @@ class CaseManage(unittest.TestCase):
     @BeautifulReport.add_test_img('舱单信息统计')
     def test_0003(self):
         """舱单信息统计: 查询，重置"""
-        TestManage(self.driver).manifest_im_sas()
+        TestManage(self.driver).manifest_im_sas('舱单管理')
         self.save_img('舱单信息统计')
 
     @BeautifulReport.add_test_img('舱单节点信息统计')
     def test_0004(self):
         """ 舱单节点信息统计：查询，重置"""
-        TestManage(self.driver).manifest_node_im_sas()
+        TestManage(self.driver).manifest_node_im_sas('舱单管理')
         self.save_img('舱单节点信息统计')
 
     @BeautifulReport.add_test_img('计费统计')
     def test_0005(self):
         """ 计费统计: 查询，扣费明细下载"""
-        TestManage(self.driver).manifest_node_im_sas()
+        TestManage(self.driver).money_sas()
         self.save_img('计费统计')
 
     @BeautifulReport.add_test_img('水单审核')
