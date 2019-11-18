@@ -1,3 +1,12 @@
+# coding:utf-8
+import os
+import sys
+
+current_directory = os.path.abspath(os.path.dirname(__file__))
+print(current_directory)
+rootPath = os.path.split(current_directory)[0]
+print(rootPath)
+sys.path.append(rootPath)
 import unittest
 import datetime
 from user_case.testcase_1report import TestcaseReport
@@ -11,8 +20,11 @@ from user_case.testcase_5money import TestcaseMoney
 from other import rm_image
 from user_script.test_report import TestReport
 
+print(1)
+
 
 class SuitTest(unittest.TestCase):
+
     def test_suit(self):
         # 设置测试报告的路径，文件名称
         filepath = '../report'
@@ -28,14 +40,17 @@ class SuitTest(unittest.TestCase):
         mysuit = unittest.TestSuite()
 
         # 添加某个类中所有用例
-        mysuit.addTest(unittest.makeSuite(TestcaseReport))
+        # mysuit.addTest(unittest.makeSuite(TestcaseReport))
 
         # 执行某个类中指定某些用例
         # 将测试用例放到测试套件中
-        # case_list = ['test_0019']
-        # for case in case_list:
-        #     mysuit.addTest(TestcaseReport(case))
+        case_list = ['test_0001']
+        for case in case_list:
+            mysuit.addTest(TestcaseReport(case))
 
         result = BeautifulReport(mysuit)
-        result.report(description='悠易达测试报告', filename=filename, log_path=filepath)
+        result.report(description=u'悠易达测试报告', filename=filename, log_path=filepath)
 
+
+A = SuitTest()
+A.test_suit()

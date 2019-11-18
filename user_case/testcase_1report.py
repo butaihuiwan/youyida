@@ -11,7 +11,18 @@ class TestcaseReport(unittest.TestCase):
     """预报舱单申报模块"""
 
     def setUp(self) -> None:
-        self.driver = webdriver.Chrome()
+        opt = webdriver.ChromeOptions()
+        opt.headless = True
+        # opt.add_argument('lang=zh_CN.UTF-8')
+        self.driver = webdriver.Chrome(options=opt)
+        self.driver.set_window_size(1920, 1080)
+        # opt.add_argument('--headless')
+        # # opt.add_argument('--no-sandbox')
+        # # opt.add_argument('--disable-gpu')
+        # # opt.add_argument('--hide-scrollbars')
+        # # opt.add_argument('blink-settings=imagesEnabled=false')
+        # # self.driver = webdriver.Chrome(executable_path="C:/Program Files (x86)/Google/Chrome/Application/chromedriver.exe", options=opt)
+        # self.driver = webdriver.Chrome()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
