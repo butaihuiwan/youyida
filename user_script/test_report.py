@@ -45,7 +45,7 @@ class TestReport(Date_add_clear):
 
     def query(self):
         """待发送-查询"""
-        self.driver.find_element_by_link_text('预配舱单申报').click()
+        self.driver.find_element_by_link_text('IMPORT').click()
         self.driver.find_element_by_link_text('申报预配舱单').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         self.driver.execute_script(js)
@@ -61,7 +61,7 @@ class TestReport(Date_add_clear):
                :param HC: 航次
                :return:
                """
-        self.driver.find_element_by_link_text('预配舱单申报').click()
+        self.driver.find_element_by_link_text('IMPORT').click()
         self.driver.find_element_by_link_text('申报预配舱单').click()
         self.driver.find_element_by_link_text('新增').click()
         time.sleep(1)
@@ -79,7 +79,7 @@ class TestReport(Date_add_clear):
         :param HC: 航次
         :return:
         """
-        self.driver.find_element_by_link_text('预配舱单申报').click()
+        self.driver.find_element_by_link_text('IMPORT').click()
         self.driver.find_element_by_link_text('申报预配舱单').click()
         self.driver.find_element_by_link_text('新增').click()
         time.sleep(1)
@@ -91,7 +91,7 @@ class TestReport(Date_add_clear):
     def rm_wait_seed(self):
         """删除--待发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"待发送").click()
         driver.find_element_by_link_text(u"删除").click()
         time.sleep(3)
@@ -101,7 +101,7 @@ class TestReport(Date_add_clear):
     def update_wait_seed(self, TDH, CM, HC):
         """修改 ：暂存-- 待发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_xpath(u"(//a[contains(text(),'修改')])[1]").click()
         num = str(random.randint(1, 1000))
         self.el_show('xpath', '//input[@name="FREIGHT_NBR"]', '运编号')
@@ -118,7 +118,7 @@ class TestReport(Date_add_clear):
     def update_wait_exist(self, TDH, CM, HC):
         """修改 ：发送，-- 待发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_xpath(u"(//a[contains(text(),'修改')])[1]").click()
         self.data_clear(TDH, CM, HC)
         self.add_data(TDH, CM, HC)
@@ -130,7 +130,7 @@ class TestReport(Date_add_clear):
     def excel_history(self):
         """Excel历史查看--待发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"Excel历史").click()
         time.sleep(2)
         driver.find_element_by_id("buttonCancelEditExcel").click()
@@ -139,7 +139,7 @@ class TestReport(Date_add_clear):
     def import_excel(self):
         """导入--待发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"导入").click()
         time.sleep(2)
         os.system(r'D:\模板文件\test.exe "D:\模板文件\新舱单申报导入模板.xlsx"')
@@ -150,7 +150,7 @@ class TestReport(Date_add_clear):
     def seed_more(self):
         """批量发送-待发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         self.rm_imput('xpath', '//*[@id="from"]')
         driver.find_element_by_xpath('//*[@id="from"]').send_keys('2019-8-30')
         self.el_show('text', '查询', '查询点击加载')
@@ -163,7 +163,7 @@ class TestReport(Date_add_clear):
     def update_seed(self):
         """修改--已发送  （暂存，重新发送）"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"修改").click()
         num = str(random.randint(1, 1000))
@@ -186,7 +186,7 @@ class TestReport(Date_add_clear):
     def report_history(self):
         """报文历史查看--已发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_xpath('//*[@id="content-main-section"]/div[3]/div/div/div/div/ul/li[2]/a').click()
         driver.find_element_by_link_text(u"报文历史").click()
         time.sleep(2)
@@ -196,7 +196,7 @@ class TestReport(Date_add_clear):
     def excel_history_seed(self):
         """excel历史查看--已发送"""
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"Excel历史").click()
         time.sleep(2)
         driver.find_element_by_id("buttonCancelEditExcel").click()
@@ -209,7 +209,7 @@ class TestReport(Date_add_clear):
         :return:
         """
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"复制新增").click()
         time.sleep(1)
@@ -229,7 +229,7 @@ class TestReport(Date_add_clear):
         :return:
         """
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"复制新增").click()
         time.sleep(1)
@@ -241,7 +241,7 @@ class TestReport(Date_add_clear):
 
     def select_seed(self):
         driver = self.driver
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text(u"已发送").click()
         driver.find_element_by_link_text(u"查询").click()
         driver.find_element_by_xpath(
@@ -251,7 +251,7 @@ class TestReport(Date_add_clear):
     def import_edi(self):
         driver = self.driver
         asser_list = []
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text('导入EDI舱单报文').click()
         driver.find_element_by_xpath('//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div[1]/div/a').click()
         time.sleep(2)
@@ -268,7 +268,7 @@ class TestReport(Date_add_clear):
         """# EDI解析记录"""
         driver = self.driver
         assert_list = []
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text(u"IMPORT").click()
         driver.find_element_by_link_text('EDI解析记录').click()
         js = 'document.getElementById("from").value = "2019-08-06"'
         driver.execute_script(js)
@@ -286,7 +286,7 @@ class TestReport(Date_add_clear):
         """ 代发舱单管理--待处理--查询 > 查看 > 报文历史 > 已处理 > 撤回"""
         driver = self.driver
         assert_list = []
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text("IMPORT").click()
         driver.find_element_by_link_text('代发舱单管理').click()
         driver.find_element_by_link_text('待处理').click()
         js = 'document.getElementById("from").value = "2018-08-06"'
@@ -336,7 +336,7 @@ class TestReport(Date_add_clear):
         """代发舱单管理--已处理--查询 > 查看 > 报文历史 > 改单信息"""
         driver = self.driver
         assert_list = []
-        driver.find_element_by_link_text(u"预配舱单申报").click()
+        driver.find_element_by_link_text("IMPORT").click()
         driver.find_element_by_link_text('代发舱单管理').click()
         driver.find_element_by_link_text('已处理').click()
         js = 'document.getElementById("from").value = "2018-8-06"'
@@ -367,7 +367,7 @@ class TestReport(Date_add_clear):
     def down_db(self):
         """港口代码参照表下载，舱单模板下载"""
         driver = self.driver
-        driver.find_element_by_link_text('预配舱单申报').click()
+        driver.find_element_by_link_text('IMPORT').click()
         driver.find_element_by_link_text('舱单模板下载').click()
         driver.find_element_by_link_text('港口代码参照表').click()
         time.sleep(2)

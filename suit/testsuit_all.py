@@ -1,3 +1,11 @@
+import os
+import sys
+
+current_directory = os.path.abspath(os.path.dirname(__file__))
+print(current_directory)
+rootPath = os.path.split(current_directory)[0]
+print(rootPath)
+sys.path.append(rootPath)
 import unittest
 import datetime
 from user_case.testcase_1report import TestcaseReport
@@ -8,6 +16,7 @@ from user_case.testcase_2track import TestcaseTrack
 from other.HTMLTestRunner_cn import HTMLTestRunner
 from admin_case.testcase_1manage_admin import CaseManage
 from other import rm_image
+
 
 class SuitTest(unittest.TestCase):
     def test_suit(self):
@@ -29,3 +38,7 @@ class SuitTest(unittest.TestCase):
         # 创建测试运行器,设置为每一个测试用例生成测试报告，运行测试套件中的测试用例
         result = BeautifulReport(discover)
         result.report(description='悠易达测试报告', filename=filename, log_path=filepath)
+
+
+B = SuitTest()
+B.test_suit()

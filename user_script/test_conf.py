@@ -5,7 +5,7 @@ from other.Commonlib import Commonshare
 from user_script.test_report import TestReport
 
 
-# 基础配置
+# BASEINFO
 class Test_conf(Commonshare):
     """
     查询 > 新增 > 邮箱管理 > 手机号管理 >
@@ -13,10 +13,10 @@ class Test_conf(Commonshare):
     """
 
     def test_conf(self):
-        """基础配置 查询 账号操作"""
+        """BASEINFO 查询 账号操作"""
         driver = self.driver
         assert_list = []
-        driver.find_element_by_link_text('基础配置').click()
+        driver.find_element_by_link_text('BASEINFO').click()
         driver.find_element_by_xpath('//*[@id="form"]/div/div[1]/div[4]/div/input').send_keys('00000009')
         driver.find_element_by_link_text('查询').click()
         i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[1]', '基础配置查询')
@@ -106,10 +106,10 @@ class Test_conf(Commonshare):
             assert (1 == 2)
 
     def test_email(self):
-        """基础配置-邮箱管理"""
+        """BASEINFO-邮箱管理"""
         driver = self.driver
         assert_list = []
-        driver.find_element_by_link_text('基础配置').click()
+        driver.find_element_by_link_text('BASEINFO').click()
         self.el_show('text', '邮箱管理', '邮箱管理点击加载')
         time.sleep(2)
         driver.find_element_by_link_text('邮箱管理').send_keys(Keys.ENTER)
@@ -136,9 +136,9 @@ class Test_conf(Commonshare):
         # driver.find_element_by_css_selector('#addEmailDialog > .close').click()
 
     def test_mobile(self):
-        """基础配置-手机号管理"""
+        """BASEINFO-手机号管理"""
         driver = self.driver
-        driver.find_element_by_link_text('基础配置').click()
+        driver.find_element_by_link_text('BASEINFO').click()
         time.sleep(2)
         self.el_show('text', '手机号管理', '手机号管理点击加载')
         time.sleep(2)

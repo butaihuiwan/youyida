@@ -20,8 +20,6 @@ from user_case.testcase_5money import TestcaseMoney
 from other import rm_image
 from user_script.test_report import TestReport
 
-print(1)
-
 
 class SuitTest(unittest.TestCase):
 
