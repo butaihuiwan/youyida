@@ -29,7 +29,6 @@ class SuitTest(unittest.TestCase):
         nowTime = datetime.datetime.now().strftime('%m%d%H%M')
         filename = str(nowTime) + '.html'
         url = filepath + '/' + filename
-        print(filename)
         try:
             rm_image.rm_image()
         except Exception as e:
@@ -42,12 +41,13 @@ class SuitTest(unittest.TestCase):
 
         # 执行某个类中指定某些用例
         # 将测试用例放到测试套件中
-        case_list = ['test_0001']
+        case_list = ['test_0019']
         for case in case_list:
             mysuit.addTest(TestcaseReport(case))
 
         result = BeautifulReport(mysuit)
         result.report(description=u'悠易达测试报告', filename=filename, log_path=filepath)
+        print(filename)
 
 
 A = SuitTest()

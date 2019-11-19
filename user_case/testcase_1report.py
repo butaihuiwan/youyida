@@ -13,15 +13,11 @@ class TestcaseReport(unittest.TestCase):
     def setUp(self) -> None:
         opt = webdriver.ChromeOptions()
         opt.headless = True
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        opt.add_experimental_option("prefs", prefs)
         # opt.add_argument('lang=zh_CN.UTF-8')
         self.driver = webdriver.Chrome(options=opt)
         self.driver.set_window_size(1920, 1080)
-        # opt.add_argument('--headless')
-        # # opt.add_argument('--no-sandbox')
-        # # opt.add_argument('--disable-gpu')
-        # # opt.add_argument('--hide-scrollbars')
-        # # opt.add_argument('blink-settings=imagesEnabled=false')
-        # # self.driver = webdriver.Chrome(executable_path="C:/Program Files (x86)/Google/Chrome/Application/chromedriver.exe", options=opt)
         # self.driver = webdriver.Chrome()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
@@ -163,12 +159,12 @@ class TestcaseReport(unittest.TestCase):
         re.report_history()
         self.save_img('已发送--报文历史查看')
 
-    @BeautifulReport.add_test_img('导入EDI舱单报文')
+    # @BeautifulReport.add_test_img('导入EDI舱单报文')
     def test_0019(self):
         """导入EDI舱单报文"""
         log = TestReport(self.driver)
         log.import_edi()
-        self.save_img('导入EDI舱单报文')
+        # self.save_img('导入EDI舱单报文')
 
     @BeautifulReport.add_test_img('EDI解析记录')
     def test_0020(self):
