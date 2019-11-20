@@ -159,12 +159,12 @@ class TestcaseReport(unittest.TestCase):
         re.report_history()
         self.save_img('已发送--报文历史查看')
 
-    # @BeautifulReport.add_test_img('导入EDI舱单报文')
+    @BeautifulReport.add_test_img('导入EDI舱单报文')
     def test_0019(self):
         """导入EDI舱单报文"""
         log = TestReport(self.driver)
         log.import_edi()
-        # self.save_img('导入EDI舱单报文')
+        self.save_img('导入EDI舱单报文')
 
     @BeautifulReport.add_test_img('EDI解析记录')
     def test_0020(self):
