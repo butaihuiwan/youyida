@@ -27,8 +27,8 @@ class SuitTest(unittest.TestCase):
         except Exception as e:
             pass
         # 测试case目录下所有的测试用例
-        test_dir = '../user_case'
-        discover = unittest.defaultTestLoader.discover(test_dir, top_level_dir='../user_case', pattern='testcase_*.py')
+        test_dir = r'C:\Users\wh\PycharmProjects\youyida\user_case'
+        discover = unittest.defaultTestLoader.discover(test_dir, pattern='testcase_*.py')
 
         # 创建测试运行器,设置为每一个测试用例生成测试报告，运行测试套件中的测试用例
         result = BeautifulReport(discover)
