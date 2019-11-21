@@ -298,41 +298,45 @@ class TestReport(Date_add_clear):
         driver.execute_script(js)
         time.sleep(2)
         driver.find_element_by_link_text('查询').click()
-        i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[5]', '代发舱单管理查询')
-        assert_list.append(i)
+        el = self.get_text('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr/td')
+        if el == 'No data available in table':
+            i = None
+            assert_list.append(i)
+        else:
+            i = self.get_length('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[5]', '代发舱单管理查询')
+            assert_list.append(i)
+            # 查看
+            self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[1]', '查看')
+            driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[1]').click()
+            self.el_show('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', 'xx')
+            time.sleep(2)
+            i = self.get_length('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', '代发舱单管理查看')
+            assert_list.append(i)
+            time.sleep(2)
 
-        # 查看
-        self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[1]', '查看')
-        driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[1]').click()
-        self.el_show('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', 'xx')
-        time.sleep(2)
-        i = self.get_length('xpath', '//*[@id="text-body"]/div/div[2]/table/tbody/tr[1]/td[2]', '代发舱单管理查看')
-        assert_list.append(i)
-        time.sleep(2)
+            driver.find_element_by_css_selector('#close > .fa').click()
 
-        driver.find_element_by_css_selector('#close > .fa').click()
+            # 报文历史
+            self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[2]', '报文历史')
+            driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[2]').click()
+            self.el_show('text', '取消', '取消点击')
+            driver.find_element_by_link_text('取消').click()
+            time.sleep(2)
 
-        # 报文历史
-        self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[2]', '报文历史')
-        driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[2]').click()
-        self.el_show('text', '取消', '取消点击')
-        driver.find_element_by_link_text('取消').click()
-        time.sleep(2)
+            # 已处理
+            self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[3]', '报文历史')
+            driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[3]').click()
+            time.sleep(2)
+            driver.find_element_by_xpath('/html/body/div[6]/div/div/div[2]/button[2]').click()
+            # 撤回
+            self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[4]', '撤回')
+            time.sleep(2)
+            driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[4]').click()
+            time.sleep(2)
 
-        # 已处理
-        self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[3]', '报文历史')
-        driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[3]').click()
-        time.sleep(2)
-        driver.find_element_by_xpath('/html/body/div[6]/div/div/div[2]/button[2]').click()
-        # 撤回
-        self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[4]', '撤回')
-        time.sleep(2)
-        driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[12]/a[4]').click()
-        time.sleep(2)
-
-        driver.find_element_by_xpath('//*[@id="message"]').send_keys('111')
-        self.el_show('text', '确认', '确认点击')
-        driver.find_element_by_link_text('确认').click()
+            driver.find_element_by_xpath('//*[@id="message"]').send_keys('111')
+            self.el_show('text', '确认', '确认点击')
+            driver.find_element_by_link_text('确认').click()
         if 0 in assert_list:
             assert (1 == 2)
 

@@ -11,14 +11,14 @@ class TestcaseReport(unittest.TestCase):
     """预报舱单申报模块"""
 
     def setUp(self) -> None:
-        opt = webdriver.ChromeOptions()
-        opt.headless = True
-        prefs = {"profile.managed_default_content_settings.images": 2}
-        opt.add_experimental_option("prefs", prefs)
-        # opt.add_argument('lang=zh_CN.UTF-8')
-        self.driver = webdriver.Chrome(options=opt)
-        self.driver.set_window_size(1920, 1080)
-        # self.driver = webdriver.Chrome()
+        # opt = webdriver.ChromeOptions()
+        # opt.headless = True
+        # prefs = {"profile.managed_default_content_settings.images": 2}
+        # opt.add_experimental_option("prefs", prefs)
+        # # opt.add_argument('lang=zh_CN.UTF-8')
+        # self.driver = webdriver.Chrome(options=opt)
+        # self.driver.set_window_size(1920, 1080)
+        self.driver = webdriver.Chrome()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
@@ -66,7 +66,8 @@ class TestcaseReport(unittest.TestCase):
         """待发送-- 新增 > 发送"""
         add = TestReport(self.driver)
         num = str(random.randint(1, 1000))
-        TDH = 'ex' + num
+        num1 = str(random.randint(1, 1000))
+        TDH = 'ex' + num + num1
         add.seed(TDH, num, num)
         self.save_img('待发送-- 新增 > 发送')
 
@@ -173,12 +174,12 @@ class TestcaseReport(unittest.TestCase):
         log.record_edi()
         self.save_img('EDI解析记录')
 
-    @BeautifulReport.add_test_img('代发舱单管理--待处理')
+    # @BeautifulReport.add_test_img('代发舱单管理--待处理')
     def test_0021(self):
         """代发舱单管理--待处理--查询 > 查看 > 报文历史 > 已处理 > 撤回"""
         log = TestReport(self.driver)
         log.manifest_management()
-        self.save_img('代发舱单管理--待处理')
+        # self.save_img('代发舱单管理--待处理')
 
     @BeautifulReport.add_test_img('代发舱单管理--已处理')
     def test_0022(self):

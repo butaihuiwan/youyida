@@ -15,6 +15,7 @@ class TestcaseConf(unittest.TestCase):
         opt.headless = True
         self.driver = webdriver.Chrome(options=opt)
         self.driver.set_window_size(1920, 1080)
+        # self.driver = webdriver.Chrome()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
