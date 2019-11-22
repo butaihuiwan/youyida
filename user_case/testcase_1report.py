@@ -23,7 +23,7 @@ class TestcaseReport(unittest.TestCase):
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
-        driver.maximize_window()
+        self.driver.set_window_size(1920, 1080)
         time.sleep(1)
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
@@ -174,12 +174,12 @@ class TestcaseReport(unittest.TestCase):
         log.record_edi()
         self.save_img('EDI解析记录')
 
-    # @BeautifulReport.add_test_img('代发舱单管理--待处理')
+    @BeautifulReport.add_test_img('代发舱单管理--待处理')
     def test_0021(self):
         """代发舱单管理--待处理--查询 > 查看 > 报文历史 > 已处理 > 撤回"""
         log = TestReport(self.driver)
         log.manifest_management()
-        # self.save_img('代发舱单管理--待处理')
+        self.save_img('代发舱单管理--待处理')
 
     @BeautifulReport.add_test_img('代发舱单管理--已处理')
     def test_0022(self):

@@ -15,18 +15,19 @@ class TestcaseTrack(unittest.TestCase):
     """数据服务"""
 
     def setUp(self) -> None:
-        opt = webdriver.ChromeOptions()
-        opt.headless = True
-        self.driver = webdriver.Chrome(options=opt)
-        self.driver.set_window_size(1920, 1080)
+        # opt = webdriver.ChromeOptions()
+        # opt.headless = True
+        # self.driver = webdriver.Chrome(options=opt)
+        self.driver = webdriver.Chrome()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
-        driver.maximize_window()
+        self.driver.set_window_size(1920, 1080)
         time.sleep(1)
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
+
 
     def save_img(self, img_name):
         """截图"""

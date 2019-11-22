@@ -45,7 +45,7 @@ class TestReport(Date_add_clear):
 
     def query(self):
         """待发送-查询"""
-        self.driver.find_element_by_link_text('IMPORT').click()
+        self.driver.find_element_by_link_text('//*[@id="main-navigation"]/ul/li[2]/a').click()
         self.driver.find_element_by_link_text('申报预配舱单').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         self.driver.execute_script(js)
@@ -254,15 +254,10 @@ class TestReport(Date_add_clear):
         driver.find_element_by_xpath('//*[@id="main-navigation"]/ul/li[2]/a').click()
         driver.find_element_by_link_text('导入EDI舱单报文').click()
         driver.find_element_by_xpath('//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div[1]/div/a').click()
-        img_name = '2'
-
-        self.driver.get_screenshot_as_file("C:\\Users\\wh\\PycharmProjects\\youyida\\suit\\image\\%s.png" % img_name)
-
         time.sleep(2)
+
         os.system(r'D:\模板文件\test.exe "D:\模板文件\EDI舱单模板.txt"')
         time.sleep(2)
-        img_name = '1'
-        self.driver.get_screenshot_as_file("C:\\Users\\wh\\PycharmProjects\\youyida\\suit\\image\\%s.png" % img_name)
         self.el_show('xpath', '//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]', '导入EDI舱单报文')
         i = self.compare_el('xpath', '//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]', '通过', '导入EDI舱单报文')
         asser_list.append(i)
