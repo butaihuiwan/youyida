@@ -45,7 +45,6 @@ class TestReport(Date_add_clear):
 
     def query(self):
         """待发送-查询"""
-        self.driver.maximize_window()
         self.driver.find_element_by_xpath('//*[@id="main-navigation"]/ul/li[2]/a').click()
         self.driver.find_element_by_link_text('申报预配舱单').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
