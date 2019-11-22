@@ -45,7 +45,8 @@ class TestReport(Date_add_clear):
 
     def query(self):
         """待发送-查询"""
-        self.driver.find_element_by_link_text('//*[@id="main-navigation"]/ul/li[2]/a').click()
+        self.driver.maximize_window()
+        self.driver.find_element_by_xpath('//*[@id="main-navigation"]/ul/li[2]/a').click()
         self.driver.find_element_by_link_text('申报预配舱单').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         self.driver.execute_script(js)
@@ -362,6 +363,7 @@ class TestReport(Date_add_clear):
         self.el_show('xpath', '//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[13]/a[2]', '报文历史')
         time.sleep(2)
         driver.find_element_by_xpath('//*[@id="purchaseOrdersearchTable"]/tbody/tr[1]/td[13]/a[2]').click()
+        time.sleep(2)
         self.el_show('text', '取消', '取消点击')
         driver.find_element_by_link_text('取消').click()
         if 0 in assert_list:

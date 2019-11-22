@@ -19,7 +19,7 @@ class TestTrack(Commonshare):
         """口岸数据 : 查询 > 添加订阅 > 批量订阅 > 重置 > 舱单运抵对比"""
         driver = self.driver
         assert_list = []
-        driver.find_element_by_link_text('SHIPBILLNODEINFO').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('口岸数据').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         driver.execute_script(js)
@@ -50,14 +50,14 @@ class TestTrack(Commonshare):
     def down_db(self):
         """新舱单节点查询导入模板下载"""
         driver = self.driver
-        driver.find_element_by_link_text('SHIPBILLNODEINFO').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('新舱单节点查询导入模板下载').click()
 
     def check(self):
         """ 查验数据: 查询 > 添加订阅 > 批量订阅 > 重置"""
         driver = self.driver
         assert_list = []
-        driver.find_element_by_link_text('SHIPBILLNODEINFO').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('查验数据').click()
         js = 'document.getElementById("from").value = "2018-09-08"'
         driver.execute_script(js)
@@ -71,6 +71,6 @@ class TestTrack(Commonshare):
     def down_cd(self):
         """查验数据查询导入模板下载"""
         driver = self.driver
-        driver.find_element_by_link_text('SHIPBILLNODEINFO').click()
+        driver.find_element_by_link_text('数据服务').click()
         driver.find_element_by_link_text('查验数据').click()
         driver.find_element_by_link_text('查验数据查询导入模板下载').click()

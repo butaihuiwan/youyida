@@ -16,7 +16,7 @@ class TestMoney(Commonshare):
 
     def test_money(self):
         driver = self.driver
-        driver.find_element_by_link_text('FINANCE').click()
+        driver.find_element_by_link_text('费用管理').click()
         driver.find_element_by_xpath(
             '//*[@id="column-container"]/div[2]/div/div/div/div/div/div[1]/div/form/div/div[1]/div[1]/div/input[1]').clear()
         driver.find_element_by_xpath(

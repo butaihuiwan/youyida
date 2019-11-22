@@ -11,19 +11,20 @@ class TestcaseReport(unittest.TestCase):
     """预报舱单申报模块"""
 
     def setUp(self) -> None:
-        # opt = webdriver.ChromeOptions()
+        opt = webdriver.ChromeOptions()
         # opt.headless = True
-        # prefs = {"profile.managed_default_content_settings.images": 2}
-        # opt.add_experimental_option("prefs", prefs)
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        opt.add_experimental_option("prefs", prefs)
         # # opt.add_argument('lang=zh_CN.UTF-8')
-        # self.driver = webdriver.Chrome(options=opt)
+        self.driver = webdriver.Chrome(options=opt)
         # self.driver.set_window_size(1920, 1080)
-        self.driver = webdriver.Chrome()
+        # self.driver = webdriver.Chrome()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
-        self.driver.set_window_size(1920, 1080)
+        driver.maximize_window()
+
         time.sleep(1)
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
@@ -122,12 +123,12 @@ class TestcaseReport(unittest.TestCase):
         se.select_seed()
         self.save_img('已发送--查询')
 
-    @BeautifulReport.add_test_img('暂存，更改报文重新发送')
+    # @BeautifulReport.add_test_img('暂存，更改报文重新发送')
     def test_0013(self):
         """已发送--修改-暂存，更改报文重新发送"""
         update = TestReport(self.driver)
         update.update_seed()
-        self.save_img('暂存，更改报文重新发送')
+        # self.save_img('暂存，更改报文重新发送')
 
     @BeautifulReport.add_test_img('复制新增-创建-暂存')
     def test_0014(self):
