@@ -1,6 +1,8 @@
 import random
 import time
 
+import win32api
+import win32con
 from selenium.webdriver.chrome.options import Options
 
 from other.Commonlib import Commonshare
@@ -15,19 +17,19 @@ class TestcaseReport(unittest.TestCase):
 
     def setUp(self) -> None:
         opt = webdriver.ChromeOptions()
-        opt.headless = True
+        # opt.headless = True
         prefs = {"profile.managed_default_content_settings.images": 2}
         opt.add_experimental_option("prefs", prefs)
         # opt = Options()
         # opt.add_argument('--no-sandbox')  # 解决DevToolsActivePort文件不存在的报错
-        # opt.add_argument('window-size=1920x3000')  # 指定浏览器分辨率
+        opt.add_argument('window-size=1920x3000')  # 指定浏览器分辨率
         opt.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
         # opt.add_argument('--hide-scrollbars')  # 隐藏滚动条, 应对一些特殊页面
         opt.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
         # # opt.add_argument('--headless')
-
         self.driver = webdriver.Chrome(options=opt)
         self.driver.get('http://192.168.17.50:2090/home/control/main')
+
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
@@ -36,9 +38,11 @@ class TestcaseReport(unittest.TestCase):
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
 
+        self.driver.set_window_size(win32api.GetSystemMetrics(win32con.SM_CXSCREEN))
+
     def save_img(self, img_name):
         """截图"""
-        self.driver.get_screenshot_as_file("C:\\Users\\wh\\PycharmProjects\\youyida\\suit\\image\\%s.png" % img_name)
+        self.driver.get_screenshot_as_file("C:\\Users\\wh\\PycharmProjects\\youyida_test\\suit\\image\\%s.png" % img_name)
 
     def tearDown(self) -> None:
         self.driver.quit()
