@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 import random
 import re
 from selenium import webdriver
@@ -111,7 +111,6 @@ class Commonshare():
         except Exception as e:
             print('error_错误：%s' % ex)
 
-
     def get_length(self, locate_type, value, ex):
         """断言：
                 判断查询结果是否有值：选定元素 value 值的长度不为0则判断有值"""
@@ -160,6 +159,10 @@ class Commonshare():
         date 格式：2019-10-30"""
         js = 'document.getElementById(value).value = data'
         self.driver.execute_script(js)
+
+    def addAttribute(self, elementobj, attributeName, value):
+
+        self.driver.execute_script("arguments[0].%s=arguments[1]" % attributeName, elementobj, value)
 
 
 if __name__ == '__main__':

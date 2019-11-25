@@ -11,8 +11,8 @@ class TestcaseReport(unittest.TestCase):
     """预报舱单申报模块"""
 
     def setUp(self) -> None:
-
         opt = webdriver.ChromeOptions()
+        # opt.headless = True
         opt.add_argument("start-maximized")
         # opt.headless = True
         prefs = {"profile.managed_default_content_settings.images": 2}
@@ -25,7 +25,7 @@ class TestcaseReport(unittest.TestCase):
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
-        # driver.maximize_window()
+        driver.maximize_window()
 
         time.sleep(1)
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
