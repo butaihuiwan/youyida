@@ -16,22 +16,19 @@ class TestcaseReport(unittest.TestCase):
     """预报舱单申报模块"""
 
     def setUp(self) -> None:
-        # opt = webdriver.ChromeOptions()
+        opt = webdriver.ChromeOptions()
         # opt.headless = True
-        # opt.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
-        # opt.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
-        # self.driver = webdriver.Chrome(options=opt)
-        self.driver = webdriver.Chrome()
+        opt.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
+        opt.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
+        self.driver = webdriver.Chrome(options=opt)
         self.driver.get('http://192.168.17.50:2090/home/control/main')
-
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
         time.sleep(1)
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
-
-        driver.set_window_size(1920, 1080, self.driver.window_handles[0])
+        driver.maximize_window()
 
     def save_img(self, img_name):
         """截图"""

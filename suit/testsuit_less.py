@@ -35,7 +35,7 @@ class SuitTest(unittest.TestCase):
 
         # 执行某个类中指定某些用例
         # 将测试用例放到测试套件中
-        case_list = ['test_0001']
+        case_list = ['test_0013']
         for case in case_list:
             mysuit.addTest(TestcaseReport(case))
 
