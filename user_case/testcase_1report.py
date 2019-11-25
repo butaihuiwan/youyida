@@ -124,12 +124,12 @@ class TestcaseReport(unittest.TestCase):
         se.select_seed()
         self.save_img('已发送--查询')
 
-    # @BeautifulReport.add_test_img('暂存，更改报文重新发送')
+    @BeautifulReport.add_test_img('暂存，更改报文重新发送')
     def test_0013(self):
         """已发送--修改-暂存，更改报文重新发送"""
         update = TestReport(self.driver)
         update.update_seed()
-        # self.save_img('暂存，更改报文重新发送')
+        self.save_img('暂存，更改报文重新发送')
 
     @BeautifulReport.add_test_img('复制新增-创建-暂存')
     def test_0014(self):
