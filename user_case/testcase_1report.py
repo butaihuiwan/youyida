@@ -38,7 +38,7 @@ class TestcaseReport(unittest.TestCase):
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
 
-        self.driver.set_window_size(win32api.GetSystemMetrics(win32con.SM_CXSCREEN))
+        driver.set_window_size(1920, 1080, self.driver.window_handles[0])
 
     def save_img(self, img_name):
         """截图"""
