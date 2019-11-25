@@ -47,6 +47,10 @@ class TestReport(Date_add_clear):
         """待发送-查询"""
         self.driver.find_element_by_xpath('//*[@id="main-navigation"]/ul/li[2]/a').click()
         self.driver.find_element_by_link_text('申报预配舱单').click()
+        el = self.driver.find_element_by_xpath(
+            '//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div/div/div/div')
+        self.addAttribute(el, 'style', 'width:125%')
+        self.driver.get_screenshot_as_file('C:\\Users\\wh\\PycharmProjects\\youyida\\suit\\image\\%s.png" % img_name')
         js = 'document.getElementById("from").value = "2018-09-08"'
         self.driver.execute_script(js)
         self.el_show('text', '查询', '查询点击加载')

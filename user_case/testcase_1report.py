@@ -1,5 +1,8 @@
 import random
 import time
+
+from selenium.webdriver.chrome.options import Options
+
 from other.Commonlib import Commonshare
 from other.BeautifulReport import BeautifulReport
 from user_script.test_report import TestReport
@@ -13,9 +16,16 @@ class TestcaseReport(unittest.TestCase):
     def setUp(self) -> None:
         opt = webdriver.ChromeOptions()
         opt.headless = True
-        opt.add_argument("start-maximized")
         prefs = {"profile.managed_default_content_settings.images": 2}
         opt.add_experimental_option("prefs", prefs)
+        # opt = Options()
+        # opt.add_argument('--no-sandbox')  # 解决DevToolsActivePort文件不存在的报错
+        # opt.add_argument('window-size=1920x3000')  # 指定浏览器分辨率
+        opt.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
+        # opt.add_argument('--hide-scrollbars')  # 隐藏滚动条, 应对一些特殊页面
+        opt.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
+        # # opt.add_argument('--headless')
+
         self.driver = webdriver.Chrome(options=opt)
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
