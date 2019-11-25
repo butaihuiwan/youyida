@@ -178,6 +178,7 @@ class TestReport(Date_add_clear):
         driver.find_element_by_link_text(u"暂存").click()
         TestReport.el_show(self, 'xpath', '//*[@id="toast-container"]/div/div[2]', '已发送-修改：暂存')
         self.el_show('text', '更改报文发送', '更改报文发送点击加载')
+        time.sleep(2)
         driver.find_element_by_link_text(u"更改报文发送").click()
         self.el_show('css', 'button.btn.btn-primary', '更改报文发送确认点击加载')
         time.sleep(2)
