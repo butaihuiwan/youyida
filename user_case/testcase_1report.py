@@ -12,21 +12,16 @@ class TestcaseReport(unittest.TestCase):
 
     def setUp(self) -> None:
         opt = webdriver.ChromeOptions()
-        # opt.headless = True
+        opt.headless = True
         opt.add_argument("start-maximized")
-        # opt.headless = True
         prefs = {"profile.managed_default_content_settings.images": 2}
         opt.add_experimental_option("prefs", prefs)
-        # # opt.add_argument('lang=zh_CN.UTF-8')
         self.driver = webdriver.Chrome(options=opt)
-        # self.driver.set_window_size(1920, 1080)
-        # self.driver = webdriver.Chrome()
         self.driver.get('http://192.168.17.50:2090/home/control/main')
         driver = self.driver
         driver.find_element_by_name('USERNAME').send_keys('customer1')
         driver.find_element_by_name('PASSWORD').send_keys('123456')
         driver.maximize_window()
-
         time.sleep(1)
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
