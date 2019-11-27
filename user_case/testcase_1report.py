@@ -16,7 +16,7 @@ class TestcaseReport(unittest.TestCase):
 
     def setUp(self) -> None:
         opt = webdriver.ChromeOptions()
-        # opt.headless = True
+        opt.headless = True
         opt.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
         opt.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
         self.driver = webdriver.Chrome(options=opt)
@@ -28,6 +28,8 @@ class TestcaseReport(unittest.TestCase):
         login = driver.find_element_by_xpath('/html/body/div[3]/form/div[5]/button[1]')
         login.click()
         driver.maximize_window()
+        driver.get_screenshot_as_file(
+            "../s.png")
 
     def save_img(self, img_name):
         """截图"""
