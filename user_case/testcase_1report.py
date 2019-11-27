@@ -1,9 +1,7 @@
-#coding=utf-8
+# coding=utf-8
 import random
 import time
 
-import win32api
-import win32con
 from selenium.webdriver.chrome.options import Options
 
 from other.Commonlib import Commonshare
@@ -33,7 +31,8 @@ class TestcaseReport(unittest.TestCase):
 
     def save_img(self, img_name):
         """截图"""
-        self.driver.get_screenshot_as_file("C:\\Users\\wh\\PycharmProjects\\youyida_test\\suit\\image\\%s.png" % img_name)
+        self.driver.get_screenshot_as_file(
+            "C:\\Users\\wh\\PycharmProjects\\youyida_test\\suit\\image\\%s.png" % img_name)
 
     def tearDown(self) -> None:
         self.driver.quit()
