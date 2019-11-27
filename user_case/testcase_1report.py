@@ -15,6 +15,7 @@ class TestcaseReport(unittest.TestCase):
     """预报舱单申报模块"""
 
     def setUp(self) -> None:
+        print(1)
         opt = webdriver.ChromeOptions()
         opt.headless = True
         opt.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
