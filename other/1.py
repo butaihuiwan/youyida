@@ -18,3 +18,5 @@ def baidu():
     login.click()
     time.sleep(3)
     driver.maximize_window()
+
+baidu()
