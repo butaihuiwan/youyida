@@ -31,8 +31,10 @@ class TestcaseReport(unittest.TestCase):
 
     def save_img(self, img_name):
         """截图"""
+        # self.driver.get_screenshot_as_file(
+        #     "C:\\Users\\wh\\PycharmProjects\\youyida_test\\suit\\image\\%s.png" % img_name)
         self.driver.get_screenshot_as_file(
-            "C:\\Users\\wh\\PycharmProjects\\youyida_test\\suit\\image\\%s.png" % img_name)
+            "../%s.png" % img_name)
 
     def tearDown(self) -> None:
         self.driver.quit()
@@ -47,7 +49,7 @@ class TestcaseReport(unittest.TestCase):
         log.update_mm()
         self.save_img('更改密码')
 
-    @BeautifulReport.add_test_img('待发送-查询01')
+    # @BeautifulReport.add_test_img('待发送-查询01')
     def test_0001(self):
         """待发送--查询"""
         log = TestReport(self.driver)
