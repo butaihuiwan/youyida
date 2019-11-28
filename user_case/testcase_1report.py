@@ -17,7 +17,7 @@ class TestcaseReport(unittest.TestCase):
     def setUp(self) -> None:
         print(1)
         opt = webdriver.ChromeOptions()
-        opt.headless = True
+        # opt.headless = True
         opt.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
         opt.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
         self.driver = webdriver.Chrome(options=opt)
