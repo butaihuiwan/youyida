@@ -374,10 +374,22 @@ class TestReport(Date_add_clear):
             assert (1 == 2)
 
     # 港口代码参照表下载，舱单模板下载
+
     def down_db(self):
         """港口代码参照表下载，舱单模板下载"""
         driver = self.driver
         driver.find_element_by_xpath('//*[@id="main-navigation"]/ul/li[2]/a').click()
         driver.find_element_by_link_text('舱单模板下载').click()
+        time.sleep(15)
+        if os.path.exists(r"C:\Users\wh\Downloads\新舱单导入模板.xlsx"):
+            print('舱单模板下载 ok')
+        else:
+            print('舱单模板下载 error')
+            assert (1 == 2)
         driver.find_element_by_link_text('港口代码参照表').click()
-        time.sleep(2)
+        time.sleep(15)
+        if os.path.exists(r"C:\Users\wh\Downloads\5位海关可发港口.xlsx"):
+            print('港口代码参照表下载 ok')
+        else:
+            print('港口代码参照表下载 error')
+            assert (1 == 2)
