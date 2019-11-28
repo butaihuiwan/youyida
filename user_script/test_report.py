@@ -261,14 +261,16 @@ class TestReport(Date_add_clear):
         driver.find_element_by_link_text('导入EDI舱单报文').click()
         driver.find_element_by_xpath('//*[@id="content-main-section"]/div[3]/div/div/div/div/div/div[1]/div/a').click()
         time.sleep(2)
+        driver.find_element_by_xpath('//*[@id="uploadfile"]').send_keys(r'D:\模板文件\test.exe "D:\模板文件\EDI舱单模板.txt')
 
-        os.system(r'D:\模板文件\test.exe "D:\模板文件\EDI舱单模板.txt"')
-        time.sleep(2)
-        self.el_show('xpath', '//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]', '导入EDI舱单报文')
-        i = self.compare_el('xpath', '//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]', '通过', '导入EDI舱单报文')
-        asser_list.append(i)
-        if 0 in asser_list:
-            assert (1 == 2)
+
+        # os.system(r'D:\模板文件\test.exe "D:\模板文件\EDI舱单模板.txt"')
+        # time.sleep(2)
+        # self.el_show('xpath', '//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]', '导入EDI舱单报文')
+        # i = self.compare_el('xpath', '//*[@id="uploadEdiInfo"]/div/table/tbody/tr/td[2]', '通过', '导入EDI舱单报文')
+        # asser_list.append(i)
+        # if 0 in asser_list:
+        #     assert (1 == 2)
 
     def record_edi(self):
         """# EDI解析记录"""
